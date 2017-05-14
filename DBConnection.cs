@@ -11,7 +11,7 @@ using NpgsqlTypes;
 
 namespace CapHo
 {
-    class DBConnection
+    public class DBConnection
     {
         public DBConnection(String URL, UInt16 port, String DBName, String username, String password)
         {

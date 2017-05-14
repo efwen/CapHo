@@ -8,14 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Npgsql;
+using CapHo.TableEditing;
 
 namespace CapHo
 {
     public partial class Editor : Form
     {
-        DBConnection DBC;
+        private DBConnection DBC;
         private DataTable dt = new DataTable();
+        
+
         public Editor()
         {
             InitializeComponent();
@@ -28,6 +30,18 @@ namespace CapHo
                                     5432,
                                     "CapHo",
                                     "Recette", "CapitalismHo");
+
+            selectTable.Items.AddRange(new String[10]
+                         {  "PLAYER_CHARACTER",
+                            "PLAYER_SHOP",
+                            "SHOP_INVENTORY",
+                            "NPC",
+                            "CUSTOMER",
+                            "NPC_SHOP",
+                            "NPC_SHOP_INVENTORY",
+                            "NPC_INVENTORY",
+                            "SHOP_TRANSACTION",
+                            "ITEM"});
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -43,6 +57,18 @@ namespace CapHo
             }
 
             DBC.CloseConn();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            switch(selectTable.Text)
+            {
+                case "NPC":
+                {
+                   (new EditNPC(DBC)).Show();
+                    break;
+                }
+            }
         }
     }
 }
