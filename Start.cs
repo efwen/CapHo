@@ -14,50 +14,21 @@ namespace CapHo
 {
     public partial class Start : Form
     {
-        private DataSet ds = new DataSet();
-        private DataTable dt = new DataTable();
+        private Home game = new Home();
+        private Editor editor = new Editor();
         public Start()
         {
             InitializeComponent();
         }
 
-        private void ConnectButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DBConnection DBC = new DBConnection(tbHost.Text, 5432, tbUser.Text, tbPass.Text, tbDBName.Text);
-
-                DBC.OpenConn();
-
-
-                string sql = "SELECT * FROM npc";
-
-                // data adapter making request from our connection
-                NpgsqlDataAdapter da = DBC.ExecuteQuery(sql);
-                ds.Reset();
-                da.Fill(ds);
-                dt = ds.Tables[0];
-                QueryResults.DataSource = dt;
-
-
-
-                DBC.CloseConn();
-            }
-            catch (Exception msg)
-            {
-                // something went wrong, and you wanna know why
-                MessageBox.Show(msg.ToString());
-                throw;
-            }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void PlayButton_Click(object sender, EventArgs e)
         {
+            (new Home()).Show();
+        }
+
+        private void DBEditButton_Click(object sender, EventArgs e)
+        {
+            (new Editor()).Show();
         }
     }
 }

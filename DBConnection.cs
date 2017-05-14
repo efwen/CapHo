@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 using System.Windows.Forms; //for messagebox errors
 using Npgsql;
@@ -14,8 +15,6 @@ namespace CapHo
     {
         public DBConnection(String URL, UInt16 port, String DBName, String username, String password)
         {
-            connectionOpen = false;
-
             //make a connection string
             String connectionString = String.Format("Server={0};Port={1};" +
                                                     "User Id={2};Password={3};Database={4};",
@@ -30,11 +29,10 @@ namespace CapHo
             try
             {
                 conn.Open();
-                connectionOpen = true;
             }
-            catch(Exception e)
+            catch(NpgsqlException e)
             {
-                MessageBox.Show("Exception!" + e.ToString());
+                MessageBox.Show(e.Message, "SQL Exception!");
             }
         }
 
@@ -44,30 +42,29 @@ namespace CapHo
             try
             {
                 conn.Close();
-                connectionOpen = false;
             }
-            catch (Exception e)
+            catch (NpgsqlException e)
             {
-                MessageBox.Show("Exception!" + e.ToString());
+                MessageBox.Show(e.Message, "SQL Exception!");
             }
         }
 
-        public NpgsqlDataAdapter ExecuteQuery(String query)
+        public void ExecuteQuery(String query, DataSet ds)
         {
+            ds.Reset();
             try
             {
-                return new NpgsqlDataAdapter(query, conn);
+                NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn);
+                da.Fill(ds);
             }
-            catch(NpgsqlException e)
+            catch (NpgsqlException e)
             {
-                MessageBox.Show("NpgSQL exception: " + e.Detail);
-                return new NpgsqlDataAdapter(); //just return an empty adapter
+                MessageBox.Show(e.Message, "SQL Exception!");
             }
         }
 
         //data
         private NpgsqlConnection conn;
-        private bool connectionOpen;
 
     }
 }
