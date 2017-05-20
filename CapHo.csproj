@@ -76,6 +76,12 @@
     <Compile Include="TableEditing\EditNPC.Designer.cs">
       <DependentUpon>EditNPC.cs</DependentUpon>
     </Compile>
+    <Compile Include="TableEditing\EditNPCShop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TableEditing\EditNPCShop.Designer.cs">
+      <DependentUpon>EditNPCShop.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,6 +102,9 @@
     </Compile>
     <EmbeddedResource Include="TableEditing\EditNPC.resx">
       <DependentUpon>EditNPC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TableEditing\EditNPCShop.resx">
+      <DependentUpon>EditNPCShop.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

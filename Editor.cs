@@ -68,6 +68,11 @@ namespace CapHo
                    (new EditNPC(DBC)).Show();
                     break;
                 }
+                case "NPC_SHOP":
+                {
+                    (new EditNPCShop(DBC)).Show();
+                    break;
+                }
             }
         }
     }

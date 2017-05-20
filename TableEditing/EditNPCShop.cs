@@ -10,12 +10,13 @@ using System.Windows.Forms;
 
 namespace CapHo.TableEditing
 {
-    public partial class EditNPC : Form
+    public partial class EditNPCShop : Form
     {
         private DBConnection DBC;
         private DataTable dt = new DataTable();
+        private string TableName = "NPCShop";
 
-        public EditNPC(DBConnection DBC)
+        public EditNPCShop(DBConnection DBC)
         {
             InitializeComponent();
             this.DBC = DBC;
@@ -26,25 +27,18 @@ namespace CapHo.TableEditing
         {
             DataGridViewCellCollection cells = Results.SelectedRows[0].Cells;
 
-            foreach(DataGridViewColumn col in Results.Columns)
-            {
-                MessageBox.Show(col.ValueType.ToString(), col.Name);
-            }
 
-
-            cells[0].GetType().ToString();
-            name.Text = cells[0].Value.ToString();
-            npcid.Value = (int)cells[1].Value;
-            gender.Text = cells[2].Value.ToString();
-            age.Value = (int)cells[3].Value;
-            race.Text = cells[4].Value.ToString();
+            npc_ownerid.Value = (int)cells[0].Value;
+            npc_shopid.Value = (int)cells[1].Value;
+            shopname.Text = cells[2].Value.ToString();
+            location.Text = cells[3].Value.ToString();
         }
 
-        private void EditNPC_Load(object sender, EventArgs e)
+        private void EditNPCShop_Load(object sender, EventArgs e)
         {
             DBC.OpenConn();
 
-            String query = "SELECT * FROM NPC";
+            String query = "SELECT * FROM " + TableName;
             DBC.ExecuteQuery(query, ds);
 
             if (ds.Tables.Count != 0)
@@ -60,8 +54,8 @@ namespace CapHo.TableEditing
         {
             DBC.OpenConn();
 
-            String query = String.Format("INSERT INTO NPC VALUES(\'{0}\', {1}, \'{2}\', {3}, \'{4}\');",
-                                        name.Text, npcid.Value, gender.Text, age.Value, race.Text);
+            String query = String.Format("INSERT INTO {0} VALUES({1}, {2}, \'{3}\', \'{4}\');", TableName,
+                                        npc_ownerid.Value.ToString(), npc_shopid.Value.ToString(), shopname.Text, location.Text);
 
             DBC.ExecuteQuery(query, ds);
 
@@ -80,7 +74,7 @@ namespace CapHo.TableEditing
         {
             DBC.OpenConn();
             //update the table
-            String query = "SELECT * FROM NPC";
+            String query = "SELECT * FROM " + TableName;
             DBC.ExecuteQuery(query, ds);
 
             if (ds.Tables.Count != 0)
@@ -96,13 +90,14 @@ namespace CapHo.TableEditing
         {
             DBC.OpenConn();
             String targetID = Results.SelectedRows[0].Cells[1].Value.ToString();
-            String updates = String.Format("name=\'{0}\', npcid={1}, gender=\'{2}\', age={3}, race=\'{4}\'",
-                                            name.Text, npcid.Value, gender.Text, age.Value, race.Text);
-            String query = String.Format("UPDATE NPC SET {0} WHERE npcid={1};", updates, targetID);
+            String updates = String.Format("npc_ownerid={0}, npc_shopid={1}, shopname=\'{2}\', location=\'{4}\'",
+                                            npc_ownerid.Value, npc_shopid.Value, shopname.Text, location.Text);
+
+            String query = String.Format("UPDATE {0} SET {1} WHERE npc_shopid={2};", TableName, updates, targetID);
 
             DBC.ExecuteQuery(query, ds);
 
-            
+
             DBC.CloseConn();
             RefreshTable();
         }
@@ -112,7 +107,7 @@ namespace CapHo.TableEditing
             DBC.OpenConn();
 
             String idToRemove = Results.SelectedRows[0].Cells[1].Value.ToString();
-            String query = String.Format("DELETE FROM NPC WHERE npcid={0};", idToRemove);
+            String query = String.Format("DELETE FROM {0} WHERE npc_shopid={1};", TableName, idToRemove);
             DBC.ExecuteQuery(query, ds);
 
             DBC.CloseConn();
