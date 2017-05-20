@@ -55,7 +55,7 @@ namespace CapHo.TableEditing
             DBC.OpenConn();
 
             String query = String.Format("INSERT INTO {0} VALUES({1}, {2}, \'{3}\', \'{4}\');", TableName,
-                                        npc_ownerid.Value.ToString(), npc_shopid.Value.ToString(), shopname.Text, location.Text);
+                                        npc_ownerid.Value, npc_shopid.Value, shopname.Text, location.Text);
 
             DBC.ExecuteQuery(query, ds);
 

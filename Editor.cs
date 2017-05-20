@@ -73,6 +73,11 @@ namespace CapHo
                     (new EditNPCShop(DBC)).Show();
                     break;
                 }
+                case "PLAYER_CHARACTER":
+                {
+                    (new EditPlayerCharacter(DBC)).Show();
+                    break;
+                }
             }
         }
     }
