@@ -14,7 +14,7 @@ namespace CapHo
 {
     public partial class Start : Form
     {
-        private Home game = new Home();
+        private Game game = new Game();
         private Editor editor = new Editor();
         public Start()
         {
@@ -23,7 +23,7 @@ namespace CapHo
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
-            (new Home()).Show();
+            (new Game()).Show();
         }
 
         private void DBEditButton_Click(object sender, EventArgs e)

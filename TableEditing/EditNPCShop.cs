@@ -36,18 +36,7 @@ namespace CapHo.TableEditing
 
         private void EditNPCShop_Load(object sender, EventArgs e)
         {
-            DBC.OpenConn();
-
-            String query = "SELECT * FROM " + TableName;
-            DBC.ExecuteQuery(query, ds);
-
-            if (ds.Tables.Count != 0)
-            {
-                dt = ds.Tables[0];
-                Results.DataSource = dt;
-            }
-
-            DBC.CloseConn();
+            RefreshTable();
         }
 
         private void createBtn_Click(object sender, EventArgs e)

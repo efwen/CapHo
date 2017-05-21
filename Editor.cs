@@ -38,7 +38,7 @@ namespace CapHo
                             "NPC",
                             "CUSTOMER",
                             "NPC_SHOP",
-                            "NPC_SHOP_INVENTORY",
+                            "NPCSHOP_INVENTORY",
                             "NPC_INVENTORY",
                             "SHOP_TRANSACTION",
                             "ITEM"});
@@ -78,6 +78,44 @@ namespace CapHo
                     (new EditPlayerCharacter(DBC)).Show();
                     break;
                 }
+                case "ITEM":
+                {
+                    (new EditItem(DBC)).Show();
+                    break;
+                }
+                case "CUSTOMER":
+                {
+                    (new EditCustomer(DBC)).Show();
+                    break;
+                }
+                case "PLAYER_SHOP":
+                {
+                    (new EditPlayerShop(DBC)).Show();
+                    break;
+                }
+                case "SHOP_INVENTORY":
+                {
+                    (new EditShopInventory(DBC)).Show();
+                    break;
+                }
+                case "NPCSHOP_INVENTORY":
+                {
+                    (new EditNPCShopInventory(DBC)).Show();
+                    break;
+                }
+                case "NPC_INVENTORY":
+                {
+                    (new EditNPCInventory(DBC)).Show();
+                    break;
+                }
+                case "SHOP_TRANSACTION":
+                {
+                    (new EditShopTransaction(DBC)).Show();
+                    break;
+                }
+                default:
+                    MessageBox.Show("Not implemented!");
+                    break;
             }
         }
     }
