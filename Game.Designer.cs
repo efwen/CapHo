@@ -42,6 +42,8 @@
             this.goToMarket = new System.Windows.Forms.Button();
             this.ds = new System.Data.DataSet();
             this.shopPanel = new System.Windows.Forms.Panel();
+            this.marketPanel = new System.Windows.Forms.Panel();
+            this.returnFromMarket = new System.Windows.Forms.Button();
             this.homePanel = new System.Windows.Forms.Panel();
             this.guildBuyDGV = new System.Windows.Forms.DataGridView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -55,8 +57,9 @@
             this.finishGuild = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.merchantLevel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ds)).BeginInit();
+            this.marketPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guildBuyDGV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -131,9 +134,9 @@
             this.BalanceLabel.ForeColor = System.Drawing.Color.White;
             this.BalanceLabel.Location = new System.Drawing.Point(12, 65);
             this.BalanceLabel.Name = "BalanceLabel";
-            this.BalanceLabel.Size = new System.Drawing.Size(87, 43);
+            this.BalanceLabel.Size = new System.Drawing.Size(49, 43);
             this.BalanceLabel.TabIndex = 7;
-            this.BalanceLabel.Text = "$0.00";
+            this.BalanceLabel.Text = "$0";
             // 
             // label6
             // 
@@ -146,7 +149,7 @@
             // 
             // openShop
             // 
-            this.openShop.Location = new System.Drawing.Point(15, 317);
+            this.openShop.Location = new System.Drawing.Point(23, 21);
             this.openShop.Name = "openShop";
             this.openShop.Size = new System.Drawing.Size(144, 57);
             this.openShop.TabIndex = 9;
@@ -156,7 +159,7 @@
             // 
             // buyFromGuild
             // 
-            this.buyFromGuild.Location = new System.Drawing.Point(15, 380);
+            this.buyFromGuild.Location = new System.Drawing.Point(23, 84);
             this.buyFromGuild.Name = "buyFromGuild";
             this.buyFromGuild.Size = new System.Drawing.Size(144, 57);
             this.buyFromGuild.TabIndex = 10;
@@ -166,12 +169,13 @@
             // 
             // goToMarket
             // 
-            this.goToMarket.Location = new System.Drawing.Point(15, 443);
+            this.goToMarket.Location = new System.Drawing.Point(23, 148);
             this.goToMarket.Name = "goToMarket";
             this.goToMarket.Size = new System.Drawing.Size(144, 57);
             this.goToMarket.TabIndex = 11;
             this.goToMarket.Text = "Go To Market";
             this.goToMarket.UseVisualStyleBackColor = true;
+            this.goToMarket.Click += new System.EventHandler(this.goToMarket_Click);
             // 
             // ds
             // 
@@ -182,18 +186,42 @@
             this.shopPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.shopPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("shopPanel.BackgroundImage")));
             this.shopPanel.Enabled = false;
-            this.shopPanel.Location = new System.Drawing.Point(14, 10);
+            this.shopPanel.Location = new System.Drawing.Point(263, 5);
             this.shopPanel.Name = "shopPanel";
             this.shopPanel.Size = new System.Drawing.Size(618, 510);
             this.shopPanel.TabIndex = 12;
             this.shopPanel.Visible = false;
             // 
+            // marketPanel
+            // 
+            this.marketPanel.BackColor = System.Drawing.Color.DimGray;
+            this.marketPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("marketPanel.BackgroundImage")));
+            this.marketPanel.Controls.Add(this.returnFromMarket);
+            this.marketPanel.Enabled = false;
+            this.marketPanel.Location = new System.Drawing.Point(224, 30);
+            this.marketPanel.Name = "marketPanel";
+            this.marketPanel.Size = new System.Drawing.Size(618, 513);
+            this.marketPanel.TabIndex = 18;
+            this.marketPanel.Visible = false;
+            // 
+            // returnFromMarket
+            // 
+            this.returnFromMarket.Location = new System.Drawing.Point(14, 11);
+            this.returnFromMarket.Name = "returnFromMarket";
+            this.returnFromMarket.Size = new System.Drawing.Size(172, 71);
+            this.returnFromMarket.TabIndex = 0;
+            this.returnFromMarket.Text = "Return Home";
+            this.returnFromMarket.UseVisualStyleBackColor = true;
+            this.returnFromMarket.Click += new System.EventHandler(this.returnFromMarket_Click);
+            // 
             // homePanel
             // 
             this.homePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.homePanel.Controls.Add(this.shopPanel);
+            this.homePanel.Controls.Add(this.openShop);
+            this.homePanel.Controls.Add(this.buyFromGuild);
+            this.homePanel.Controls.Add(this.goToMarket);
             this.homePanel.Enabled = false;
-            this.homePanel.Location = new System.Drawing.Point(240, 12);
+            this.homePanel.Location = new System.Drawing.Point(201, 54);
             this.homePanel.Name = "homePanel";
             this.homePanel.Size = new System.Drawing.Size(618, 510);
             this.homePanel.TabIndex = 13;
@@ -332,20 +360,20 @@
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(12, 192);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(87, 43);
+            this.label7.Size = new System.Drawing.Size(49, 43);
             this.label7.TabIndex = 16;
-            this.label7.Text = "$0.00";
+            this.label7.Text = "$0";
             // 
-            // label8
+            // merchantLevel
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Monotype Corsiva", 26.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(12, 248);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(34, 43);
-            this.label8.TabIndex = 17;
-            this.label8.Text = "0";
+            this.merchantLevel.AutoSize = true;
+            this.merchantLevel.Font = new System.Drawing.Font("Monotype Corsiva", 26.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.merchantLevel.ForeColor = System.Drawing.Color.White;
+            this.merchantLevel.Location = new System.Drawing.Point(12, 248);
+            this.merchantLevel.Name = "merchantLevel";
+            this.merchantLevel.Size = new System.Drawing.Size(34, 43);
+            this.merchantLevel.TabIndex = 17;
+            this.merchantLevel.Text = "0";
             // 
             // Game
             // 
@@ -353,14 +381,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SaddleBrown;
             this.ClientSize = new System.Drawing.Size(870, 531);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.marketPanel);
+            this.Controls.Add(this.shopPanel);
+            this.Controls.Add(this.homePanel);
+            this.Controls.Add(this.merchantLevel);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.guildPanel);
-            this.Controls.Add(this.homePanel);
-            this.Controls.Add(this.goToMarket);
-            this.Controls.Add(this.buyFromGuild);
-            this.Controls.Add(this.openShop);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.BalanceLabel);
             this.Controls.Add(this.dayPeriodLbl);
@@ -373,6 +400,7 @@
             this.Text = "Capitalism, Ho!";
             this.Load += new System.EventHandler(this.Game_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ds)).EndInit();
+            this.marketPanel.ResumeLayout(false);
             this.homePanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.guildBuyDGV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -414,6 +442,8 @@
         private System.Windows.Forms.Button finishGuild;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label merchantLevel;
+        private System.Windows.Forms.Button returnFromMarket;
+        private System.Windows.Forms.Panel marketPanel;
     }
 }

@@ -111,7 +111,6 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Enabled = false;
             this.label2.Location = new System.Drawing.Point(9, 101);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 13);
@@ -164,8 +163,12 @@
             // 
             // currentbalance
             // 
-            this.currentbalance.DecimalPlaces = 2;
             this.currentbalance.Location = new System.Drawing.Point(108, 127);
+            this.currentbalance.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
             this.currentbalance.Name = "currentbalance";
             this.currentbalance.Size = new System.Drawing.Size(120, 20);
             this.currentbalance.TabIndex = 41;
@@ -193,8 +196,12 @@
             // 
             // currentdebt
             // 
-            this.currentdebt.DecimalPlaces = 2;
             this.currentdebt.Location = new System.Drawing.Point(108, 153);
+            this.currentdebt.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
             this.currentdebt.Name = "currentdebt";
             this.currentdebt.Size = new System.Drawing.Size(120, 20);
             this.currentdebt.TabIndex = 44;

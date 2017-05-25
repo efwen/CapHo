@@ -17,7 +17,7 @@ namespace CapHo
 
         private DataTable dt = new DataTable();
         private string TableName = "player_character";
-        private string playerName = "Bob";
+        private string playerName = "Recette";
 
         private readonly string[] dayTimesStr = {"Morning", "Midday", "Afternoon", "Night"};
         private uint dayTime = 0;
@@ -103,7 +103,8 @@ namespace CapHo
             {
                 dt = ds.Tables[0];
                 DataRow row = (ds.Tables[0].Rows[0]);
-                BalanceLabel.Text = String.Format("${0:0.00}", row.ItemArray[5]);
+                BalanceLabel.Text = String.Format("${0}", row.ItemArray[4]);
+                merchantLevel.Text = String.Format("Lv. {0}", row.ItemArray[3]);
             }
             else
             {
@@ -144,8 +145,9 @@ namespace CapHo
             refreshGuildTab(guildBuySellTabControl.SelectedTab);
         }
 
-
-
-
+        private void goToMarket_Click(object sender, EventArgs e)
+        {
+            switchPanel(marketPanel);
+        }
     }
 }

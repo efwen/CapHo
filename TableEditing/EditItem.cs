@@ -32,8 +32,8 @@ namespace CapHo.TableEditing
         {
             DBC.OpenConn();
 
-            String query = String.Format("INSERT INTO {0} VALUES({1}, \'{2}\', \'{3}\', {4});", TableName,
-                                        itemid.Value, itemName.Text, itemDescription.Text, basePrice.Value);
+            String query = String.Format("INSERT INTO {0} VALUES({1}, \'{2}\', \'{3}\', {4}, {5});", TableName,
+                                        itemid.Value, itemName.Text, itemDescription.Text, basePrice.Value, itemType.Value);
 
             DBC.ExecuteQuery(query, ds);
 
@@ -52,8 +52,8 @@ namespace CapHo.TableEditing
         {
             DBC.OpenConn();
             String targetID = Results.SelectedRows[0].Cells[0].Value.ToString();
-            String updates = String.Format("itemid={0}, itemname=\'{1}\', itemdescription=\'{2}\', baseprice={4}",
-                                            itemid.Value, itemName.Text, itemDescription.Text, basePrice.Value);
+            String updates = String.Format("itemid={0}, itemname=\'{1}\', itemdescription=\'{2}\', baseprice={3}",
+                                            itemid.Value, itemName.Text, itemDescription.Text, basePrice.Value, itemType.Value);
 
             String query = String.Format("UPDATE {0} SET {1} WHERE itemid={2};", TableName, updates, targetID);
 
@@ -102,7 +102,8 @@ namespace CapHo.TableEditing
             itemid.Value = (int)cells[0].Value;
             itemName.Text = cells[1].Value.ToString();
             itemDescription.Text = cells[2].Value.ToString();
-            basePrice.Value = (Decimal)cells[3].Value;
+            basePrice.Value = (int)cells[3].Value;
+            itemType.Value = (int)cells[4].Value;
         }
 
         private void label4_Click(object sender, EventArgs e)

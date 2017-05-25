@@ -96,7 +96,6 @@
             // 
             // transactionAmt
             // 
-            this.transactionAmt.DecimalPlaces = 2;
             this.transactionAmt.Location = new System.Drawing.Point(116, 166);
             this.transactionAmt.Maximum = new decimal(new int[] {
             1000000,

@@ -108,7 +108,7 @@ namespace CapHo.TableEditing
             customerid.Value = (int)cells[3].Value;
             itemid.Value = (int)cells[4].Value;
             quantity.Value = (int)cells[5].Value;
-            transactionAmt.Value = (Decimal)cells[6].Value;
+            transactionAmt.Value = (int)cells[6].Value;
             transactionday.Value = (int)cells[7].Value;
             transactionTime.SelectedIndex = (int)cells[8].Value - 1;
         }

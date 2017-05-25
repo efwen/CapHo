@@ -32,8 +32,8 @@ namespace CapHo.TableEditing
             name.Text = cells[1].Value.ToString();
             gender.Text = cells[2].Value.ToString();
             merchantlevel.Value = (int)cells[3].Value;
-            currentbalance.Value = (Decimal)cells[4].Value;
-            currentdebt.Value = (Decimal)cells[5].Value;
+            currentbalance.Value = (int)cells[4].Value;
+            currentdebt.Value = (int)cells[5].Value;
         }
 
         private void EditPlayerCharacter_Load(object sender, EventArgs e)

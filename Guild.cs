@@ -33,7 +33,6 @@ namespace CapHo
 
         private void GuildBuySellTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MessageBox.Show("index changed");
             refreshGuildTab(guildBuySellTabControl.SelectedTab);
         }
 
@@ -50,11 +49,12 @@ namespace CapHo
         /*
             The guild buy tab displays all of the items the guildmaster is willing to sell to/buy from you
             In other words:
-            select ITEM.Name, BasePrice * (some formula involving merchant level) as price, NPC_SHOP_INVENTORY.Limited, NPC_SHOP_INVENTORY.Quantity
-            from NPC
-            join NPC_SHOP on NPC.NPCID = NPC_SHOP.OwnerID
-            join NPC_SHOP_INVENTORY on NPC_SHOP_INVENTORY.ShopID = npcshop.ShopID
-            join ITEM on ITEM.ItemID = NPC_SHOP_INVENTORY.I_ItemID;
+select ITEM.itemname, BasePrice as price, NPCSHOP_INVENTORY.Limited, NPCSHOP_INVENTORY.Quantity
+from NPC
+join NPCSHOP on NPC.NPCID = NPCSHOP.npc_ownerid
+join NPCSHOP_INVENTORY on NPCSHOP_INVENTORY.ShopID = npcshop.npc_shopid
+join ITEM on ITEM.itemid = NPCSHOP_INVENTORY.itemid
+where NPC.name = 'The Guildmaster';
         */
         private void refreshGuildTab(TabPage page)
         {
@@ -70,14 +70,37 @@ namespace CapHo
 
             DBC.OpenConn();
 
-            //update the table
-            String query = "select ITEM.itemname as Name, ITEM.baseprice from ITEM";
-            DBC.ExecuteQuery(query, ds);
-
-            if (ds.Tables.Count != 0)
+            if (page == guildBuyTab)
             {
-                guildTransDt = ds.Tables[0];
-                guildBuyDGV.DataSource = guildTransDt;
+                //update the table
+                //String query = "select ITEM.itemname as Name, ITEM.baseprice from ITEM";
+                String query = "select ITEM.itemname, ITEM.Baseprice as price, ITEM.itemdescription as description, NPCSHOP_INVENTORY.Limited, NPCSHOP_INVENTORY.Quantity\n";
+                query += "from NPC\n";
+                query += "join NPCSHOP on NPC.NPCID = NPCSHOP.npc_ownerID\n";
+                query += "join NPCSHOP_INVENTORY on NPCSHOP_INVENTORY.ShopID = NPCSHOP.npc_shopID\n";
+                query += "join ITEM on ITEM.ItemID = NPCSHOP_INVENTORY.ItemID\n";
+                query += "where NPC.name = 'The Guildmaster';";
+
+                MessageBox.Show(query);
+                DBC.ExecuteQuery(query, ds);
+
+                if (ds.Tables.Count != 0)
+                {
+                    guildTransDt = ds.Tables[0];
+                    guildBuyDGV.DataSource = guildTransDt;
+                }
+            }
+            else if(page == guildSellTab)
+            {
+                //update the table
+                String query = "select ITEM.itemname as Name, ITEM.baseprice from ITEM";
+                DBC.ExecuteQuery(query, ds);
+
+                if (ds.Tables.Count != 0)
+                {
+                    guildTransDt = ds.Tables[0];
+                    guildSellDGV.DataSource = guildTransDt;
+                }
             }
 
             DBC.CloseConn();

@@ -41,10 +41,13 @@
             this.basePrice = new System.Windows.Forms.NumericUpDown();
             this.itemName = new System.Windows.Forms.TextBox();
             this.itemDescription = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.itemType = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.Results)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.itemid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.basePrice)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemType)).BeginInit();
             this.SuspendLayout();
             // 
             // deleteBtn
@@ -144,7 +147,6 @@
             // 
             // basePrice
             // 
-            this.basePrice.DecimalPlaces = 2;
             this.basePrice.Location = new System.Drawing.Point(120, 93);
             this.basePrice.Maximum = new decimal(new int[] {
             1000000,
@@ -172,11 +174,35 @@
             this.itemDescription.TabIndex = 25;
             this.itemDescription.Text = "(none)";
             // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(18, 119);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(54, 13);
+            this.label5.TabIndex = 26;
+            this.label5.Text = "Item Type";
+            // 
+            // itemType
+            // 
+            this.itemType.Location = new System.Drawing.Point(120, 117);
+            this.itemType.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.itemType.Name = "itemType";
+            this.itemType.Size = new System.Drawing.Size(120, 20);
+            this.itemType.TabIndex = 27;
+            // 
             // EditItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(729, 360);
+            this.Controls.Add(this.itemType);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
@@ -196,6 +222,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ds)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.itemid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.basePrice)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemType)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -216,5 +243,7 @@
         private System.Windows.Forms.NumericUpDown basePrice;
         private System.Windows.Forms.TextBox itemName;
         private System.Windows.Forms.TextBox itemDescription;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown itemType;
     }
 }
