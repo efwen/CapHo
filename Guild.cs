@@ -24,7 +24,15 @@ namespace CapHo
         //Guild Panel Data         
         private DataTable guildTransDt = new DataTable();   //data dable for displaying what you can sell/buy at the guild panel
 
+        //retrieve and process initial data for Guild
+        private void initGuild()
+        {
+        }
 
+        private void runGuild()
+        {
+
+        }
 
 
         /*
@@ -49,12 +57,6 @@ namespace CapHo
         /*
             The guild buy tab displays all of the items the guildmaster is willing to sell to/buy from you
             In other words:
-select ITEM.itemname, BasePrice as price, NPCSHOP_INVENTORY.Limited, NPCSHOP_INVENTORY.Quantity
-from NPC
-join NPCSHOP on NPC.NPCID = NPCSHOP.npc_ownerid
-join NPCSHOP_INVENTORY on NPCSHOP_INVENTORY.ShopID = npcshop.npc_shopid
-join ITEM on ITEM.itemid = NPCSHOP_INVENTORY.itemid
-where NPC.name = 'The Guildmaster';
         */
         private void refreshGuildTab(TabPage page)
         {
@@ -63,10 +65,6 @@ where NPC.name = 'The Guildmaster';
             {
                 priceQueryPortion = String.Format("{0} * PLAYER_CHARACTER.merchantlevel, ", 1.1);
             }
-            else if (page == guildSellTab)
-            {
-                priceQueryPortion = String.Format("{0} * PLAYER_CHARACTER.merchantlevel, ", 0.9);
-            }
 
             DBC.OpenConn();
 
@@ -74,32 +72,19 @@ where NPC.name = 'The Guildmaster';
             {
                 //update the table
                 //String query = "select ITEM.itemname as Name, ITEM.baseprice from ITEM";
-                String query = "select ITEM.itemname, ITEM.Baseprice as price, ITEM.itemdescription as description, NPCSHOP_INVENTORY.Limited, NPCSHOP_INVENTORY.Quantity\n";
+                String query = "select ITEM.itemid, ITEM.itemname, ITEM.Baseprice as price, ITEM.itemdescription as description, NPCSHOP_INVENTORY.Limited, NPCSHOP_INVENTORY.Quantity\n";
                 query += "from NPC\n";
                 query += "join NPCSHOP on NPC.NPCID = NPCSHOP.npc_ownerID\n";
                 query += "join NPCSHOP_INVENTORY on NPCSHOP_INVENTORY.ShopID = NPCSHOP.npc_shopID\n";
                 query += "join ITEM on ITEM.ItemID = NPCSHOP_INVENTORY.ItemID\n";
                 query += "where NPC.name = 'The Guildmaster';";
 
-                MessageBox.Show(query);
                 DBC.ExecuteQuery(query, ds);
 
                 if (ds.Tables.Count != 0)
                 {
                     guildTransDt = ds.Tables[0];
                     guildBuyDGV.DataSource = guildTransDt;
-                }
-            }
-            else if(page == guildSellTab)
-            {
-                //update the table
-                String query = "select ITEM.itemname as Name, ITEM.baseprice from ITEM";
-                DBC.ExecuteQuery(query, ds);
-
-                if (ds.Tables.Count != 0)
-                {
-                    guildTransDt = ds.Tables[0];
-                    guildSellDGV.DataSource = guildTransDt;
                 }
             }
 
@@ -111,21 +96,48 @@ where NPC.name = 'The Guildmaster';
         private void guildPanelBuy_Click(object sender, EventArgs e)
         {
 
-        }
+            //confirmation!
 
-        private void guildPanelSell_Click(object sender, EventArgs e)
-        {
+            if(guildBuyDGV.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an item");
+                return;
+            }
+            
+            int itemID = (int)guildBuyDGV.SelectedRows[0].Cells[0].Value;
 
+            
+            playerHasItem(itemID);
+            //DataRow itemData = ds.Tables[0].Rows[0];
+
+            //DBC.OpenConn();
+
+            //step1: check if the player has enough money to buy
+
+            //step2: remove from the merchant inventory
+
+            //step 3: add to the player inventory
+            //step 3a. 
+
+            //String query = String.Format("some stuff {0}", targetItemID);
+
+
+            //DBC.CloseConn();
+
+            refreshGuildTab(guildBuyTab);
+            savePlayerState();
         }
 
         private void finishGuild_Click(object sender, EventArgs e)
         {
 
-            //set the panel to home
-            switchPanel(homePanel);
-
             //if something actually transpired, increment the counter
             incrementTimer();
+
+            //set the panel to home
+            switchMode(homePanel);
+
+
         }
     }
 }

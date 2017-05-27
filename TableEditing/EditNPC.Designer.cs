@@ -85,6 +85,11 @@
             // npcid
             // 
             this.npcid.Location = new System.Drawing.Point(67, 36);
+            this.npcid.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.npcid.Name = "npcid";
             this.npcid.Size = new System.Drawing.Size(120, 20);
             this.npcid.TabIndex = 3;
@@ -131,6 +136,11 @@
             // age
             // 
             this.age.Location = new System.Drawing.Point(67, 102);
+            this.age.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.age.Name = "age";
             this.age.Size = new System.Drawing.Size(119, 20);
             this.age.TabIndex = 8;

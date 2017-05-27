@@ -92,6 +92,11 @@
             // shopLevel
             // 
             this.shopLevel.Location = new System.Drawing.Point(105, 129);
+            this.shopLevel.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.shopLevel.Name = "shopLevel";
             this.shopLevel.Size = new System.Drawing.Size(123, 20);
             this.shopLevel.TabIndex = 53;
@@ -117,6 +122,11 @@
             // ownerid
             // 
             this.ownerid.Location = new System.Drawing.Point(105, 12);
+            this.ownerid.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.ownerid.Name = "ownerid";
             this.ownerid.Size = new System.Drawing.Size(123, 20);
             this.ownerid.TabIndex = 49;
@@ -166,6 +176,11 @@
             // shopid
             // 
             this.shopid.Location = new System.Drawing.Point(105, 41);
+            this.shopid.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.shopid.Name = "shopid";
             this.shopid.Size = new System.Drawing.Size(123, 20);
             this.shopid.TabIndex = 63;

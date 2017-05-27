@@ -76,7 +76,7 @@
             // 
             this.customerid.Location = new System.Drawing.Point(116, 88);
             this.customerid.Maximum = new decimal(new int[] {
-            1000,
+            1000000,
             0,
             0,
             0});
@@ -128,7 +128,7 @@
             // 
             this.quantity.Location = new System.Drawing.Point(116, 140);
             this.quantity.Maximum = new decimal(new int[] {
-            100000,
+            1000000,
             0,
             0,
             0});
@@ -180,7 +180,7 @@
             // 
             this.shopid.Location = new System.Drawing.Point(116, 62);
             this.shopid.Maximum = new decimal(new int[] {
-            1000,
+            1000000,
             0,
             0,
             0});
@@ -262,7 +262,7 @@
             // 
             this.transactionid.Location = new System.Drawing.Point(116, 12);
             this.transactionid.Maximum = new decimal(new int[] {
-            1000,
+            100000,
             0,
             0,
             0});
@@ -331,6 +331,11 @@
             // transactionday
             // 
             this.transactionday.Location = new System.Drawing.Point(116, 199);
+            this.transactionday.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.transactionday.Minimum = new decimal(new int[] {
             1,
             0,

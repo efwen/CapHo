@@ -120,6 +120,11 @@
             // playerid
             // 
             this.playerid.Location = new System.Drawing.Point(108, 8);
+            this.playerid.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.playerid.Name = "playerid";
             this.playerid.Size = new System.Drawing.Size(120, 20);
             this.playerid.TabIndex = 32;
@@ -165,8 +170,8 @@
             // 
             this.currentbalance.Location = new System.Drawing.Point(108, 127);
             this.currentbalance.Maximum = new decimal(new int[] {
-            100000000,
-            0,
+            1410065408,
+            2,
             0,
             0});
             this.currentbalance.Name = "currentbalance";
@@ -198,8 +203,8 @@
             // 
             this.currentdebt.Location = new System.Drawing.Point(108, 153);
             this.currentdebt.Maximum = new decimal(new int[] {
-            100000000,
-            0,
+            1410065408,
+            2,
             0,
             0});
             this.currentdebt.Name = "currentdebt";

@@ -21,16 +21,24 @@ namespace CapHo
 
     public partial class Game
     {
+        //retrieve and process initial data for Shop
+        private void initShop()
+        {
+        }
+
         private void runShop()
         {
             MessageBox.Show("a thing");
             MessageBox.Show("another thing");
 
-            //set the panel to home
-            switchPanel(homePanel);
 
             //if something actually transpired, increment the counter
             incrementTimer();
+
+            //set the panel to home
+            switchMode(homePanel);
+
+
         }
     }
 }

@@ -49,6 +49,11 @@
             // npcid
             // 
             this.npcid.Location = new System.Drawing.Point(107, 12);
+            this.npcid.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.npcid.Name = "npcid";
             this.npcid.Size = new System.Drawing.Size(123, 20);
             this.npcid.TabIndex = 87;
@@ -95,6 +100,11 @@
             // quantity
             // 
             this.quantity.Location = new System.Drawing.Point(107, 64);
+            this.quantity.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.quantity.Name = "quantity";
             this.quantity.Size = new System.Drawing.Size(123, 20);
             this.quantity.TabIndex = 82;
@@ -111,6 +121,11 @@
             // itemid
             // 
             this.itemid.Location = new System.Drawing.Point(107, 38);
+            this.itemid.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.itemid.Name = "itemid";
             this.itemid.Size = new System.Drawing.Size(123, 20);
             this.itemid.TabIndex = 80;

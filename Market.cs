@@ -18,15 +18,26 @@ namespace CapHo
 {
     public partial class Game
     {
+        //retrieve and process initial data for Market
+        private void initMarket()
+        {
+        }
+
+        private void runMarket()
+        {
+
+        }
 
         private void returnFromMarket_Click(object sender, EventArgs e)
         {
 
-            //set the panel to home
-            switchPanel(homePanel);
-
             //if something actually transpired, increment the counter
             incrementTimer();
+
+            //set the panel to home
+            switchMode(homePanel);
+
+
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 
+using System.Net.Sockets;
 using System.Windows.Forms; //for messagebox errors
 using Npgsql;
 using NpgsqlTypes;
@@ -24,47 +25,70 @@ namespace CapHo
         }
 
         //open a connection
-        public void OpenConn()
+        public bool OpenConn()
         {
+
             try
             {
                 conn.Open();
+                open = true;
+                return true;
             }
-            catch(NpgsqlException e)
+            catch (NpgsqlException e)
             {
                 MessageBox.Show(e.Message, "SQL Exception!");
+                return false;
             }
+            catch (SocketException se)
+            {
+                MessageBox.Show(se.Message, "Could not Open Connection!");
+                return false;
+            }
+            
         }
 
         //close the connection
-        public void CloseConn()
+        public bool CloseConn()
         {
             try
             {
                 conn.Close();
+                open = false;
+                return true;
             }
             catch (NpgsqlException e)
             {
                 MessageBox.Show(e.Message, "SQL Exception!");
+                return false;
             }
         }
 
-        public void ExecuteQuery(String query, DataSet ds)
+        public bool ExecuteQuery(String query, DataSet ds)
         {
             ds.Reset();
+
+            if(open == false)
+            {
+                MessageBox.Show("Connection not open!");
+                return false;
+            }
+
             try
             {
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn);
                 da.Fill(ds);
+                return true;
             }
             catch (NpgsqlException e)
             {
                 MessageBox.Show(e.Message, "SQL Exception!");
+                return false;
             }
         }
 
         //data
         private NpgsqlConnection conn;
+        bool open = false;
 
     }
 }

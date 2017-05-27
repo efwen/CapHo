@@ -141,6 +141,11 @@
             // itemid
             // 
             this.itemid.Location = new System.Drawing.Point(120, 10);
+            this.itemid.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.itemid.Name = "itemid";
             this.itemid.Size = new System.Drawing.Size(120, 20);
             this.itemid.TabIndex = 22;
@@ -188,7 +193,7 @@
             // 
             this.itemType.Location = new System.Drawing.Point(120, 117);
             this.itemType.Maximum = new decimal(new int[] {
-            1000,
+            100000,
             0,
             0,
             0});

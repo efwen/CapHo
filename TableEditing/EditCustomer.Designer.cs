@@ -122,6 +122,11 @@
             // npcid
             // 
             this.npcid.Location = new System.Drawing.Point(117, 10);
+            this.npcid.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.npcid.Name = "npcid";
             this.npcid.Size = new System.Drawing.Size(120, 20);
             this.npcid.TabIndex = 17;

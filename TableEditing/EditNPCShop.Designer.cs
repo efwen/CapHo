@@ -80,6 +80,11 @@
             // npc_shopid
             // 
             this.npc_shopid.Location = new System.Drawing.Point(81, 38);
+            this.npc_shopid.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.npc_shopid.Name = "npc_shopid";
             this.npc_shopid.Size = new System.Drawing.Size(119, 20);
             this.npc_shopid.TabIndex = 22;
@@ -115,6 +120,11 @@
             // npc_ownerid
             // 
             this.npc_ownerid.Location = new System.Drawing.Point(81, 12);
+            this.npc_ownerid.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.npc_ownerid.Name = "npc_ownerid";
             this.npc_ownerid.Size = new System.Drawing.Size(120, 20);
             this.npc_ownerid.TabIndex = 17;
