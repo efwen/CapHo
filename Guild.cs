@@ -23,6 +23,8 @@ namespace CapHo
     {
         //Guild Panel Data         
         private DataTable guildTransDt = new DataTable();   //data dable for displaying what you can sell/buy at the guild panel
+        const int guildMasterID = 3;
+        bool somethingPurchased = false;                    //if something has been purchased during the current cycle
 
         //retrieve and process initial data for Guild
         private void initGuild()
@@ -31,7 +33,7 @@ namespace CapHo
 
         private void runGuild()
         {
-
+            somethingPurchased = false; //reset the purchased flag
         }
 
 
@@ -103,36 +105,38 @@ namespace CapHo
                 MessageBox.Show("Please select an item");
                 return;
             }
+
+            if((int)guildPurchaseQty.Value == 0)
+            {
+                MessageBox.Show("Cannot by 0 of an Item");
+                return;
+            }
             
             int itemID = (int)guildBuyDGV.SelectedRows[0].Cells[0].Value;
+            String itemName = (String)guildBuyDGV.SelectedRows[0].Cells[1].Value;
+            int itemprice = (int)guildBuyDGV.SelectedRows[0].Cells[2].Value;
 
-            
-            playerHasItem(itemID);
-            //DataRow itemData = ds.Tables[0].Rows[0];
-
-            //DBC.OpenConn();
-
-            //step1: check if the player has enough money to buy
-
-            //step2: remove from the merchant inventory
-
-            //step 3: add to the player inventory
-            //step 3a. 
-
-            //String query = String.Format("some stuff {0}", targetItemID);
+            String confirmMsg = String.Format("Buying {0} of {1} for ${2}. Are you sure?", (int)guildPurchaseQty.Value, itemName, itemprice * guildPurchaseQty.Value);
+            DialogResult confirm = MessageBox.Show(confirmMsg, "Are you sure?", MessageBoxButtons.YesNo);
+            if (confirm == DialogResult.No)
+                return;
 
 
-            //DBC.CloseConn();
+            if(!performNPCShopBuyTransaction(guildMasterID, playerID, itemID, (int)guildPurchaseQty.Value))
+            {
+                MessageBox.Show("transaction failed");
+            }
 
             refreshGuildTab(guildBuyTab);
-            savePlayerState();
+            updateUI();
         }
 
         private void finishGuild_Click(object sender, EventArgs e)
         {
 
             //if something actually transpired, increment the counter
-            incrementTimer();
+            if(somethingPurchased)
+                incrementTimer();
 
             //set the panel to home
             switchMode(homePanel);

@@ -63,7 +63,7 @@ namespace CapHo
             }
         }
 
-        public bool ExecuteQuery(String query, DataSet ds)
+        public bool ExecuteQuery(String query, DataSet ds, String column = "")
         {
             ds.Reset();
 
@@ -76,7 +76,14 @@ namespace CapHo
             try
             {
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn);
-                da.Fill(ds);
+                if(column != "")
+                {
+                    da.Fill(ds, column);
+                }
+                else
+                {
+                    da.Fill(ds);
+                }
                 return true;
             }
             catch (NpgsqlException e)

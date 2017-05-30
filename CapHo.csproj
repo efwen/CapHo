@@ -59,15 +59,24 @@
     <Compile Include="Guild.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Home.cs">
+    <Compile Include="HaggleSell.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Market.cs">
+    <Compile Include="HaggleSell.Designer.cs">
+      <DependentUpon>HaggleSell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Home.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Queries.cs" />
     <Compile Include="Shop.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShopDisplay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ShopDisplay.Designer.cs">
+      <DependentUpon>ShopDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="Start.cs">
       <SubType>Form</SubType>
@@ -148,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Game.resx">
       <DependentUpon>Game.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaggleSell.resx">
+      <DependentUpon>HaggleSell.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Start.resx">
       <DependentUpon>Start.cs</DependentUpon>

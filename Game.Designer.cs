@@ -36,18 +36,21 @@
             this.dayPeriodLbl = new System.Windows.Forms.Label();
             this.BalanceLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.openShop = new System.Windows.Forms.Button();
+            this.openShopBtn = new System.Windows.Forms.Button();
             this.buyFromGuild = new System.Windows.Forms.Button();
-            this.goToMarket = new System.Windows.Forms.Button();
             this.ds = new System.Data.DataSet();
             this.shopPanel = new System.Windows.Forms.Panel();
-            this.marketPanel = new System.Windows.Forms.Panel();
-            this.returnFromMarket = new System.Windows.Forms.Button();
+            this.retHomeBtn = new System.Windows.Forms.Button();
+            this.configDisplayBtn = new System.Windows.Forms.Button();
+            this.runOpenShopBtn = new System.Windows.Forms.Button();
             this.homePanel = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.guildPanel = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.guildPurchaseQty = new System.Windows.Forms.NumericUpDown();
             this.guildBuySellTabControl = new System.Windows.Forms.TabControl();
-            this.guildPanelSell = new System.Windows.Forms.Button();
+            this.guildBuyTab = new System.Windows.Forms.TabPage();
+            this.guildBuyDGV = new System.Windows.Forms.DataGridView();
             this.guildPanelBuy = new System.Windows.Forms.Button();
             this.finishGuild = new System.Windows.Forms.Button();
             this.debtAmountLbl = new System.Windows.Forms.Label();
@@ -59,16 +62,15 @@
             this.daysToPaymentLbl = new System.Windows.Forms.Label();
             this.paymentAmtLbl = new System.Windows.Forms.Label();
             this.quitGameBtn = new System.Windows.Forms.Button();
-            this.guildBuyDGV = new System.Windows.Forms.DataGridView();
-            this.guildBuyTab = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.ds)).BeginInit();
-            this.marketPanel.SuspendLayout();
+            this.shopPanel.SuspendLayout();
             this.homePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.guildPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guildPurchaseQty)).BeginInit();
             this.guildBuySellTabControl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.guildBuyDGV)).BeginInit();
             this.guildBuyTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guildBuyDGV)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -140,15 +142,18 @@
             this.label6.TabIndex = 8;
             this.label6.Text = "Current Debt";
             // 
-            // openShop
+            // openShopBtn
             // 
-            this.openShop.Location = new System.Drawing.Point(3, 7);
-            this.openShop.Name = "openShop";
-            this.openShop.Size = new System.Drawing.Size(207, 500);
-            this.openShop.TabIndex = 9;
-            this.openShop.Text = "Open Shop";
-            this.openShop.UseVisualStyleBackColor = true;
-            this.openShop.Click += new System.EventHandler(this.openShop_Click);
+            this.openShopBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("openShopBtn.BackgroundImage")));
+            this.openShopBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.openShopBtn.ForeColor = System.Drawing.Color.Gold;
+            this.openShopBtn.Location = new System.Drawing.Point(3, 3);
+            this.openShopBtn.Name = "openShopBtn";
+            this.openShopBtn.Size = new System.Drawing.Size(319, 544);
+            this.openShopBtn.TabIndex = 9;
+            this.openShopBtn.Text = "Open Shop";
+            this.openShopBtn.UseVisualStyleBackColor = true;
+            this.openShopBtn.Click += new System.EventHandler(this.openShop_Click);
             // 
             // buyFromGuild
             // 
@@ -156,23 +161,13 @@
             this.buyFromGuild.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buyFromGuild.BackgroundImage")));
             this.buyFromGuild.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buyFromGuild.ForeColor = System.Drawing.Color.Gold;
-            this.buyFromGuild.Location = new System.Drawing.Point(216, 3);
+            this.buyFromGuild.Location = new System.Drawing.Point(325, 3);
             this.buyFromGuild.Name = "buyFromGuild";
-            this.buyFromGuild.Size = new System.Drawing.Size(212, 504);
+            this.buyFromGuild.Size = new System.Drawing.Size(321, 544);
             this.buyFromGuild.TabIndex = 10;
             this.buyFromGuild.Text = "Visit Merchant\'s Guild";
             this.buyFromGuild.UseVisualStyleBackColor = false;
             this.buyFromGuild.Click += new System.EventHandler(this.buyFromGuild_Click);
-            // 
-            // goToMarket
-            // 
-            this.goToMarket.Location = new System.Drawing.Point(434, 3);
-            this.goToMarket.Name = "goToMarket";
-            this.goToMarket.Size = new System.Drawing.Size(181, 504);
-            this.goToMarket.TabIndex = 11;
-            this.goToMarket.Text = "Go To Market";
-            this.goToMarket.UseVisualStyleBackColor = true;
-            this.goToMarket.Click += new System.EventHandler(this.goToMarket_Click);
             // 
             // ds
             // 
@@ -182,45 +177,55 @@
             // 
             this.shopPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.shopPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("shopPanel.BackgroundImage")));
+            this.shopPanel.Controls.Add(this.retHomeBtn);
+            this.shopPanel.Controls.Add(this.configDisplayBtn);
+            this.shopPanel.Controls.Add(this.runOpenShopBtn);
             this.shopPanel.Enabled = false;
-            this.shopPanel.Location = new System.Drawing.Point(263, 5);
+            this.shopPanel.Location = new System.Drawing.Point(201, 46);
             this.shopPanel.Name = "shopPanel";
-            this.shopPanel.Size = new System.Drawing.Size(618, 510);
+            this.shopPanel.Size = new System.Drawing.Size(650, 500);
             this.shopPanel.TabIndex = 12;
             this.shopPanel.Visible = false;
             // 
-            // marketPanel
+            // retHomeBtn
             // 
-            this.marketPanel.BackColor = System.Drawing.Color.DimGray;
-            this.marketPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("marketPanel.BackgroundImage")));
-            this.marketPanel.Controls.Add(this.returnFromMarket);
-            this.marketPanel.Enabled = false;
-            this.marketPanel.Location = new System.Drawing.Point(224, 30);
-            this.marketPanel.Name = "marketPanel";
-            this.marketPanel.Size = new System.Drawing.Size(618, 513);
-            this.marketPanel.TabIndex = 18;
-            this.marketPanel.Visible = false;
+            this.retHomeBtn.Location = new System.Drawing.Point(491, 152);
+            this.retHomeBtn.Name = "retHomeBtn";
+            this.retHomeBtn.Size = new System.Drawing.Size(156, 50);
+            this.retHomeBtn.TabIndex = 3;
+            this.retHomeBtn.Text = "Return Home";
+            this.retHomeBtn.UseVisualStyleBackColor = true;
+            this.retHomeBtn.Click += new System.EventHandler(this.retHomeBtn_Click);
             // 
-            // returnFromMarket
+            // configDisplayBtn
             // 
-            this.returnFromMarket.Location = new System.Drawing.Point(14, 11);
-            this.returnFromMarket.Name = "returnFromMarket";
-            this.returnFromMarket.Size = new System.Drawing.Size(172, 71);
-            this.returnFromMarket.TabIndex = 0;
-            this.returnFromMarket.Text = "Return Home";
-            this.returnFromMarket.UseVisualStyleBackColor = true;
-            this.returnFromMarket.Click += new System.EventHandler(this.returnFromMarket_Click);
+            this.configDisplayBtn.Location = new System.Drawing.Point(491, 38);
+            this.configDisplayBtn.Name = "configDisplayBtn";
+            this.configDisplayBtn.Size = new System.Drawing.Size(156, 52);
+            this.configDisplayBtn.TabIndex = 1;
+            this.configDisplayBtn.Text = "Configure Display";
+            this.configDisplayBtn.UseVisualStyleBackColor = true;
+            this.configDisplayBtn.Click += new System.EventHandler(this.configDisplayBtn_Click);
+            // 
+            // runOpenShopBtn
+            // 
+            this.runOpenShopBtn.Location = new System.Drawing.Point(491, 96);
+            this.runOpenShopBtn.Name = "runOpenShopBtn";
+            this.runOpenShopBtn.Size = new System.Drawing.Size(156, 50);
+            this.runOpenShopBtn.TabIndex = 0;
+            this.runOpenShopBtn.Text = "Open Shop";
+            this.runOpenShopBtn.UseVisualStyleBackColor = true;
+            this.runOpenShopBtn.Click += new System.EventHandler(this.runOpenShopBtn_Click);
             // 
             // homePanel
             // 
             this.homePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.homePanel.Controls.Add(this.openShop);
+            this.homePanel.Controls.Add(this.openShopBtn);
             this.homePanel.Controls.Add(this.buyFromGuild);
-            this.homePanel.Controls.Add(this.goToMarket);
             this.homePanel.Enabled = false;
-            this.homePanel.Location = new System.Drawing.Point(139, 89);
+            this.homePanel.Location = new System.Drawing.Point(240, 0);
             this.homePanel.Name = "homePanel";
-            this.homePanel.Size = new System.Drawing.Size(618, 510);
+            this.homePanel.Size = new System.Drawing.Size(650, 550);
             this.homePanel.TabIndex = 13;
             this.homePanel.Visible = false;
             // 
@@ -229,7 +234,7 @@
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(321, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(353, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(297, 276);
             this.pictureBox1.TabIndex = 1;
@@ -240,40 +245,74 @@
             this.guildPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.guildPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("guildPanel.BackgroundImage")));
             this.guildPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.guildPanel.Controls.Add(this.label8);
+            this.guildPanel.Controls.Add(this.guildPurchaseQty);
             this.guildPanel.Controls.Add(this.guildBuySellTabControl);
-            this.guildPanel.Controls.Add(this.guildPanelSell);
             this.guildPanel.Controls.Add(this.guildPanelBuy);
             this.guildPanel.Controls.Add(this.finishGuild);
             this.guildPanel.Controls.Add(this.pictureBox1);
             this.guildPanel.Enabled = false;
-            this.guildPanel.Location = new System.Drawing.Point(104, 12);
+            this.guildPanel.Location = new System.Drawing.Point(232, 22);
             this.guildPanel.Name = "guildPanel";
-            this.guildPanel.Size = new System.Drawing.Size(726, 548);
+            this.guildPanel.Size = new System.Drawing.Size(650, 550);
             this.guildPanel.TabIndex = 14;
             this.guildPanel.Visible = false;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Font = new System.Drawing.Font("Modern No. 20", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.Black;
+            this.label8.Location = new System.Drawing.Point(42, 461);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(46, 25);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "Qty";
+            // 
+            // guildPurchaseQty
+            // 
+            this.guildPurchaseQty.Location = new System.Drawing.Point(94, 463);
+            this.guildPurchaseQty.Name = "guildPurchaseQty";
+            this.guildPurchaseQty.Size = new System.Drawing.Size(120, 20);
+            this.guildPurchaseQty.TabIndex = 6;
             // 
             // guildBuySellTabControl
             // 
             this.guildBuySellTabControl.Controls.Add(this.guildBuyTab);
-            this.guildBuySellTabControl.Location = new System.Drawing.Point(304, 275);
+            this.guildBuySellTabControl.Location = new System.Drawing.Point(231, 282);
             this.guildBuySellTabControl.Multiline = true;
             this.guildBuySellTabControl.Name = "guildBuySellTabControl";
             this.guildBuySellTabControl.SelectedIndex = 0;
             this.guildBuySellTabControl.Size = new System.Drawing.Size(419, 270);
             this.guildBuySellTabControl.TabIndex = 5;
             // 
-            // guildPanelSell
+            // guildBuyTab
             // 
-            this.guildPanelSell.Location = new System.Drawing.Point(17, 384);
-            this.guildPanelSell.Name = "guildPanelSell";
-            this.guildPanelSell.Size = new System.Drawing.Size(172, 52);
-            this.guildPanelSell.TabIndex = 4;
-            this.guildPanelSell.Text = "Sell Items";
-            this.guildPanelSell.UseVisualStyleBackColor = true;
+            this.guildBuyTab.Controls.Add(this.guildBuyDGV);
+            this.guildBuyTab.Location = new System.Drawing.Point(4, 22);
+            this.guildBuyTab.Name = "guildBuyTab";
+            this.guildBuyTab.Padding = new System.Windows.Forms.Padding(3);
+            this.guildBuyTab.Size = new System.Drawing.Size(411, 244);
+            this.guildBuyTab.TabIndex = 0;
+            this.guildBuyTab.Text = "Buy";
+            this.guildBuyTab.UseVisualStyleBackColor = true;
+            // 
+            // guildBuyDGV
+            // 
+            this.guildBuyDGV.AllowUserToAddRows = false;
+            this.guildBuyDGV.AllowUserToDeleteRows = false;
+            this.guildBuyDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.guildBuyDGV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.guildBuyDGV.Location = new System.Drawing.Point(3, 3);
+            this.guildBuyDGV.Name = "guildBuyDGV";
+            this.guildBuyDGV.ReadOnly = true;
+            this.guildBuyDGV.Size = new System.Drawing.Size(405, 238);
+            this.guildBuyDGV.TabIndex = 0;
             // 
             // guildPanelBuy
             // 
-            this.guildPanelBuy.Location = new System.Drawing.Point(14, 329);
+            this.guildPanelBuy.Location = new System.Drawing.Point(39, 410);
             this.guildPanelBuy.Name = "guildPanelBuy";
             this.guildPanelBuy.Size = new System.Drawing.Size(175, 49);
             this.guildPanelBuy.TabIndex = 3;
@@ -283,7 +322,7 @@
             // 
             // finishGuild
             // 
-            this.finishGuild.Location = new System.Drawing.Point(17, 442);
+            this.finishGuild.Location = new System.Drawing.Point(42, 492);
             this.finishGuild.Name = "finishGuild";
             this.finishGuild.Size = new System.Drawing.Size(172, 46);
             this.finishGuild.TabIndex = 2;
@@ -381,47 +420,23 @@
             this.quitGameBtn.TabIndex = 25;
             this.quitGameBtn.Text = "Quit Game";
             this.quitGameBtn.UseVisualStyleBackColor = true;
-            // 
-            // guildBuyDGV
-            // 
-            this.guildBuyDGV.AllowUserToAddRows = false;
-            this.guildBuyDGV.AllowUserToDeleteRows = false;
-            this.guildBuyDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.guildBuyDGV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.guildBuyDGV.Location = new System.Drawing.Point(3, 3);
-            this.guildBuyDGV.Name = "guildBuyDGV";
-            this.guildBuyDGV.ReadOnly = true;
-            this.guildBuyDGV.Size = new System.Drawing.Size(405, 238);
-            this.guildBuyDGV.TabIndex = 0;
-            // 
-            // guildBuyTab
-            // 
-            this.guildBuyTab.Controls.Add(this.guildBuyDGV);
-            this.guildBuyTab.Location = new System.Drawing.Point(4, 22);
-            this.guildBuyTab.Name = "guildBuyTab";
-            this.guildBuyTab.Padding = new System.Windows.Forms.Padding(3);
-            this.guildBuyTab.Size = new System.Drawing.Size(411, 244);
-            this.guildBuyTab.TabIndex = 0;
-            this.guildBuyTab.Text = "Buy";
-            this.guildBuyTab.UseVisualStyleBackColor = true;
+            this.quitGameBtn.Click += new System.EventHandler(this.quitGameBtn_Click);
             // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SaddleBrown;
-            this.ClientSize = new System.Drawing.Size(933, 651);
-            this.Controls.Add(this.guildPanel);
+            this.ClientSize = new System.Drawing.Size(890, 550);
+            this.Controls.Add(this.shopPanel);
+            this.Controls.Add(this.homePanel);
             this.Controls.Add(this.quitGameBtn);
             this.Controls.Add(this.paymentAmtLbl);
             this.Controls.Add(this.daysToPaymentLbl);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.homePanel);
             this.Controls.Add(this.playerNameLbl);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.marketPanel);
-            this.Controls.Add(this.shopPanel);
             this.Controls.Add(this.merchantLevelLbl);
             this.Controls.Add(this.debtAmountLbl);
             this.Controls.Add(this.label6);
@@ -431,17 +446,20 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dayNumLbl);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.guildPanel);
             this.Name = "Game";
             this.Text = "Capitalism, Ho!";
             this.Load += new System.EventHandler(this.Game_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ds)).EndInit();
-            this.marketPanel.ResumeLayout(false);
+            this.shopPanel.ResumeLayout(false);
             this.homePanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.guildPanel.ResumeLayout(false);
+            this.guildPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guildPurchaseQty)).EndInit();
             this.guildBuySellTabControl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.guildBuyDGV)).EndInit();
             this.guildBuyTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.guildBuyDGV)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -456,22 +474,18 @@
         private System.Windows.Forms.Label dayPeriodLbl;
         private System.Windows.Forms.Label BalanceLabel;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button openShop;
+        private System.Windows.Forms.Button openShopBtn;
         private System.Windows.Forms.Button buyFromGuild;
-        private System.Windows.Forms.Button goToMarket;
         private System.Data.DataSet ds;
         private System.Windows.Forms.Panel shopPanel;
         private System.Windows.Forms.Panel homePanel;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel guildPanel;
         private System.Windows.Forms.TabControl guildBuySellTabControl;
-        private System.Windows.Forms.Button guildPanelSell;
         private System.Windows.Forms.Button guildPanelBuy;
         private System.Windows.Forms.Button finishGuild;
         private System.Windows.Forms.Label debtAmountLbl;
         private System.Windows.Forms.Label merchantLevelLbl;
-        private System.Windows.Forms.Button returnFromMarket;
-        private System.Windows.Forms.Panel marketPanel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label playerNameLbl;
         private System.Windows.Forms.Label label4;
@@ -481,5 +495,10 @@
         private System.Windows.Forms.Button quitGameBtn;
         private System.Windows.Forms.TabPage guildBuyTab;
         private System.Windows.Forms.DataGridView guildBuyDGV;
+        private System.Windows.Forms.NumericUpDown guildPurchaseQty;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button runOpenShopBtn;
+        private System.Windows.Forms.Button configDisplayBtn;
+        private System.Windows.Forms.Button retHomeBtn;
     }
 }

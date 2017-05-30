@@ -14,14 +14,15 @@ namespace CapHo
     {
         //General Game data
         private DBConnection DBC;
-
+       
         private DataTable dt = new DataTable();
         private string TableName = "player_character";
         private string playerName = "Recette";
-        private uint playerID;
+        private int playerID;
 
         //curPanel contains the controls relevant to the current game state
         private Panel curPanel;
+        
 
 
 
@@ -45,6 +46,7 @@ namespace CapHo
             initModes();
             switchMode(homePanel);
             updateUI();
+
         }
 
         private void incrementTimer()
@@ -85,7 +87,8 @@ namespace CapHo
 
             curPanel = switchTo;
 
-            curPanel.Location = new Point(226, 9);
+            curPanel.Location = new Point(240, 0);
+            curPanel.Size = new Size(650, 550);
             curPanel.Visible = true;
             curPanel.Enabled = true;
             curPanel.BringToFront();
@@ -100,8 +103,8 @@ namespace CapHo
             initHome();
             initShop();
             initGuild();
-            initMarket();
         }
+
         //user swiched to a new mode
         //run some initial logic for the original panel
         private void runMode(Panel modePanel)
@@ -117,10 +120,6 @@ namespace CapHo
             else if (modePanel == guildPanel)
             {
                 runGuild();
-            }
-            else if (modePanel == marketPanel)
-            {
-                runMarket();
             }
             else
             {
@@ -153,24 +152,24 @@ namespace CapHo
             return false;
 
         }
-        private bool inventoryHasItem(string tableName, uint itemID)
+        private bool inventoryHasItem(string tableName, int itemID)
         {
             String query = String.Format("select itemID from {0} where itemid = {1};", tableName, itemID);
             return doesQueryHaveResults(query);
         }
 
-        private bool playerHasItem(uint itemID)
+        private bool playerHasItem(int itemID)
         {
             return inventoryHasItem("player_inventory", itemID);
         }
-        private bool NPCHasItem(uint itemID, uint npcID)
+        private bool NPCHasItem(int itemID, int npcID)
         {
             String query =          "select itemID\n";
             query +=                "from npc_inventory\n";
             query += String.Format( "where npcID = {0} AND itemID = {1};", npcID, itemID);
             return doesQueryHaveResults(query);
         }
-        private bool NPCShopHasItem(uint itemID, uint npcID)
+        private bool NPCShopHasItem(int itemID, int npcID)
         {
             String query =          "select itemID\n";
             query +=                "from npcshop_inventory\n";
@@ -179,7 +178,7 @@ namespace CapHo
             return doesQueryHaveResults(query);
         }
 
-        private int  playerInvItemQty(uint playerID, uint itemID)
+        private int  playerInvItemQty(int playerID, int itemID)
         {
             String query;
             query = "select quantity\n";
@@ -208,16 +207,21 @@ namespace CapHo
             DBC.CloseConn();
             return -1;
         }
-        private int  NPCShopInvItemQty(uint npcID, uint itemID, ref bool limited)
+        private int  NPCShopInvItemQty(int npcID, int itemID, ref bool limited)
         {
             String query;
             query = "select quantity, limited\n";
             query += "from npcshop_inventory\n";
             query += "join npcshop on npcshop.npc_shopid = npcshop_inventory.shopid\n";
-            query += String.Format("where npc_ownerid = {0} and itemid = {0}", npcID, itemID);
+            query += String.Format("where npc_ownerid = {0} and itemid = {1}", npcID, itemID);
 
             DBC.OpenConn();
-            DBC.ExecuteQuery(query, ds);
+            if (!DBC.ExecuteQuery(query, ds))
+            {
+                DBC.CloseConn();
+                return -1;
+            }
+
             if (ds.Tables.Count != 0)
             {
                 if (ds.Tables[0].Rows.Count > 0)       //rows mean the item exists
@@ -238,7 +242,7 @@ namespace CapHo
             return -1;
         }
 
-        private bool addItemsToPlayerInv(uint shopID, uint itemID, uint quantity)
+        private bool addItemsToPlayerInv(int shopID, int itemID, int quantity)
         {
             String query;
             if(playerHasItem(itemID))
@@ -269,9 +273,11 @@ namespace CapHo
             DBC.CloseConn();
             return true;
         }
-        private bool removeItemsFromPlayerInv(uint playerID, uint itemID, uint removeQty)
+        private bool removeItemsFromPlayerInv(int playerID, int itemID, int removeQty)
         {
             String query;
+            bool removeFromDisplay = false;         //if the player runs out of this item, and its in a display, remove from there too
+            String removeFromDispQuery = "";
             int curQty = playerInvItemQty(playerID, itemID);
             if (curQty > removeQty)  //we have more than we want to remove
             {
@@ -289,6 +295,21 @@ namespace CapHo
                 //remove operation
                 query = "remove from player_inventory\n";
                 query += String.Format("where player_inventory.shopid = {0} and player_inventory.itemid = {1};", playerID, itemID);
+
+                //if the player has the last remaining item in a display, remove it from there too
+                removeFromDisplay = true;
+                removeFromDispQuery = "remove from display_contents\n";
+                removeFromDispQuery += String.Format("where display_contents.d_itemid = {0}\n", itemID);
+                removeFromDispQuery += String.Format("and shopid in (select shopid from playershop where ownerid = {0});", playerID);
+
+                DBC.OpenConn();
+                if (!DBC.ExecuteQuery(removeFromDispQuery, ds))
+                {
+                    DBC.CloseConn();
+                    return false;
+                }
+                DBC.CloseConn();
+
             }
             else
             {
@@ -305,11 +326,13 @@ namespace CapHo
                 return false;
             }
 
+
+
             DBC.CloseConn();
             return true;
         }
 
-        private bool addItemsToNPCShopInv(uint npcID, uint itemID, uint addQty)
+        private bool addItemsToNPCShopInv(int npcID, int itemID, int addQty)
         {
             String query = "";
             bool ltd = false;
@@ -354,21 +377,15 @@ namespace CapHo
 
             DBC.CloseConn();
             return true;
-
-
-            return false;
         }
-        private bool removeItemsFromNPCShopInv(uint npcID, uint itemID, uint removeQty)
+        private bool removeItemsFromNPCShopInv(int npcID, int itemID, int removeQty)
         {
             String query = "";
             bool ltd = false;
             int NPCShopQty = NPCShopInvItemQty(npcID, itemID, ref ltd);
 
-            
-            if (NPCShopQty < 0)
-                return false;       //NPCShop does not contain the item
 
-            if (ltd)
+            if (ltd && (NPCShopQty < 0))
             {
                 if (removeQty > NPCShopQty)
                 {
@@ -410,14 +427,86 @@ namespace CapHo
             DBC.CloseConn();
             return true;
         }
-        private bool removeItemFromNPCInv(uint npcID, uint itemID)
+
+        //get the next available id number for inserting into a table
+        private int getNextAvailID(String tableName)
         {
-            return false;
+            String attrName;
+            
+            switch (tableName)
+            {
+                case "player_character":
+                    attrName = "playerid";
+                    break;
+                case "npc":
+                    attrName = "npcid";
+                    break;
+                case "item":
+                    attrName = "itemid";
+                    break;
+                case "item_type":
+                    attrName = "index";
+                    break;
+                case "npcshop":
+                    attrName = "npc_shopid";
+                    break;
+                case "playershop":
+                    attrName = "shopid";
+                    break;
+                case "shop_display":
+                    attrName = "displaynum";
+                    break;
+                case "shop_transaction":
+                    attrName = "transactionid";
+                    break;
+                default:
+                    return -2;
+            }
+
+
+            String query = String.Format("select MAX({0}) from {1};", attrName, tableName);
+
+            DBC.OpenConn();
+
+            if (!DBC.ExecuteQuery(query, ds))
+            {
+                DBC.CloseConn();
+                return -1;
+            }
+            
+            DBC.CloseConn();
+            return (int)ds.Tables[0].Rows[0].ItemArray[0] + 1;
         }
 
-
-        private bool performShopBuyTransaction(uint npcID, uint playerID, uint itemID, uint quantity)
+        private bool performNPCShopBuyTransaction(int npcID, int playerID, int itemID, int quantity)
         {
+            //figure out how much the item costs so we can test if we can afford it
+            String query =  "select baseprice\n";
+            query += "from item\n";
+            query += String.Format("where item.itemid = {0}", itemID);
+
+            DBC.OpenConn();
+
+            if (!DBC.ExecuteQuery(query, ds))
+            {
+                DBC.CloseConn();    //query failed
+                return false;
+            }
+
+            DBC.CloseConn();
+
+            int itemprice = (int)ds.Tables[0].Rows[0].ItemArray[0];
+            int totalprice = itemprice * quantity;
+
+            //check if the player has enough money
+            if (balance < totalprice)
+            {
+                MessageBox.Show("You don't have enough money for that!");
+                return false;
+            }
+
+
+            //remove/add
             if (!removeItemsFromNPCShopInv(npcID, itemID, quantity))
             {
                 MessageBox.Show("Could not remove items from NPC shop!");
@@ -436,40 +525,84 @@ namespace CapHo
             }
 
 
+
+
+
             //make a transaction record
-            //whats the best transaction id we can use?
-            uint transactionid = 400;  //get maybe with a MAX()
-            uint transactionType = 3;   ///unsure about this, 3 = purchase from npc shop
-            uint markup = 0; /* some formula */
+            //get a new transaction id
+            int newTransID = getNextAvailID("shop_transaction");
 
-            String query = "insert into shop_transaction\n";
-            query += String.Format("values({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8});",
-                                    transactionid, transactionType, /*shopid*/4, playerID, itemID,
-                                    quantity, /*transactionAmt*/, day, dayTime);
-            // "select {0}, {1}, npcshop.shopid, {2}, {3}, {4}, item.baseprice * markup, {5}, {6}\n"
-            // "from npcshop
-            // "join npcshop_inventory on shopid
-            // "join item on itemid
-            // "where npcshop.npcID = {0}", npcID
-            //NOT DONE
-            /////////////////
-            //////////////////
-            ////////////////
+            if (newTransID < 0)
+                return false;
 
+            query =                 "insert into shop_transaction\n";
+            query += String.Format( "select {0}, 1, npcshop.npc_shopid, {1}, item.itemid, {2}, item.baseprice, {3}, {4}\n",
+                                    newTransID, playerID, quantity, day, dayTime);
+            query +=                "from npcshop\n";
+            query +=                "join npcshop_inventory on npcshop.npc_shopid = npcshop_inventory.shopid\n";
+            query +=                "join item on npcshop_inventory.itemid = item.itemid\n";
+            query += String.Format( "where npcshop.npcID = {0} and item.itemid = {1};", npcID, itemID);
+
+
+            
+            //charge the player money
+            balance -= (int)totalprice;
+            //force a player state update
+            savePlayerState();
             return true;
         }
-        //might not need this
-        private bool addtemToNPCShop(int itemID)
+
+
+        private bool performPlayerShopSellTransaction(int npcID, int playerID, int itemID, int price)
         {
-            return false;
+            //remove from player inventory, if it is on display remove it there too
+            if(!removeItemsFromPlayerInv(playerID, itemID, 1))
+            {
+                MessageBox.Show("Could not remove items from player");
+                return false;
+            }
+
+            //add money to player balance
+            balance += price;
+            savePlayerState();
+            return true;
         }
 
-
-
-        private bool addItemToNPCInv(int itemID)
+        private bool alterCustomerRelationship(int npcID, int amt)
         {
-            return false;
+            String query = "update customer\n";
+            if (amt < 0)
+            {
+                query += String.Format("set relationship = relationship - {0}\n", Math.Abs(amt));
+                query += String.Format("where n_npcid = {0}\n", npcID);
+                query += String.Format("and n_npcid in (select n_npcid from customer where relationship > {0});", Math.Abs(amt));
+            }
+            else
+            {
+                query += String.Format("set relationship = relationship + {0}\n", amt);
+                query += String.Format("where n_npcid = {0};", npcID);
+            }
+
+
+            DBC.OpenConn();
+            if (!DBC.ExecuteQuery(query, ds))
+            {
+                DBC.CloseConn();
+                return false;
+            }
+            DBC.CloseConn();
+            return true;
         }
 
+        private void quitGameBtn_Click(object sender, EventArgs e)
+        {
+            DialogResult confirm = MessageBox.Show("Are you sure you want to quit?", "Capitalism, Ho!", MessageBoxButtons.YesNo);
+            if (confirm == DialogResult.No)
+                return;
+
+            savePlayerState();
+
+            this.Close();
+        }
     }
 }

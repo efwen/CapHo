@@ -18,8 +18,8 @@ namespace CapHo
 {
     public partial class Game
     {
-        const int paymentCycleSize = 2;
-        int daysToNextPayment;
+        const uint paymentCycleSize = 2;
+        uint daysToNextPayment;
         int paymentAmt;
 
         int balance;            //get from db every time?
@@ -43,8 +43,8 @@ namespace CapHo
             {
                 dt = ds.Tables[0];
                 DataRow row = (ds.Tables[0].Rows[0]);
-                
-                
+
+                playerID = (int)row.ItemArray[0];
                 playerNameLbl.Text = (String)row.ItemArray[1];
 
                 balance = (int)row.ItemArray[4];
@@ -91,7 +91,7 @@ namespace CapHo
                 //check if we can subtract amt due from balance
                 if(paymentAmt < balance)
                 {
-                    balance -= paymentAmt;
+                    balance -= (int)paymentAmt;
                     debtAmt -= paymentAmt;
                     //save state
                     
@@ -100,9 +100,6 @@ namespace CapHo
                     merchantLevel++;
                     paymentAmt = (merchantLevel) * 1000;
 
-                    
-
-                    
 
                     //check if we won
                     if (debtAmt <= 0)
@@ -113,14 +110,8 @@ namespace CapHo
                 else
                 {
                     MessageBox.Show("Game over!");
-                    //what do we do in game over? 
-                    //recettear resets to just after the last payment was due.
-                    //does this mean we save all the transactions since last payment
-                    //and restore the state to then?
 
-                    //restore state
-
-                    //this.Close();
+                    this.Close();
                 }
             }
             else
@@ -142,37 +133,23 @@ namespace CapHo
         {
             DBC.OpenConn();
 
-
-
+            String query = "update player_character\n";
+            query += String.Format("set merchantlevel = {0}, currentbalance = {1}, currentdebt = {2}", merchantLevel, balance, debtAmt);
+            query += String.Format("where playerid = {0};", playerID);
+            DBC.ExecuteQuery(query, ds);
 
             DBC.CloseConn();
         }
 
         private void openShop_Click(object sender, EventArgs e)
         {
-            //deactivate the other actions
-            buyFromGuild.Enabled = false;
-            goToMarket.Enabled = false;
-            //open shop and do stuff
-
-
             switchMode(shopPanel);
-            //once we're done, increment the daily timer
-
-            //reactivate actions
-            buyFromGuild.Enabled = true;
-            goToMarket.Enabled = true;
         }
 
         private void buyFromGuild_Click(object sender, EventArgs e)
         {
             switchMode(guildPanel);
             refreshGuildTab(guildBuySellTabControl.SelectedTab);
-        }
-
-        private void goToMarket_Click(object sender, EventArgs e)
-        {
-            switchMode(marketPanel);
         }
     }
 }
