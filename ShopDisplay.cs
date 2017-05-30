@@ -97,7 +97,6 @@ namespace CapHo
 
         private void getSlotData(uint slot)
         {
-            MessageBox.Show("Slot " + slot.ToString());
             if (slot >= slots.Length)
                 return;
 
