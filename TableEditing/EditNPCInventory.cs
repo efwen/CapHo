@@ -39,7 +39,7 @@ namespace CapHo.TableEditing
 
         private void createBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String query = String.Format("INSERT INTO {0} VALUES({1}, {2}, {3});", TableName,
                                         npcid.Value, itemid.Value, quantity.Value);
@@ -52,14 +52,14 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
 
             RefreshTable();
         }
 
         private void modifyBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String targetShopID = Results.SelectedRows[0].Cells[0].Value.ToString();
             String targetItemID = Results.SelectedRows[0].Cells[1].Value.ToString();
@@ -72,13 +72,13 @@ namespace CapHo.TableEditing
             DBC.ExecuteQuery(query, ds);
 
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String targetShopID = Results.SelectedRows[0].Cells[0].Value.ToString();
             String targetItemID = Results.SelectedRows[0].Cells[1].Value.ToString();
@@ -86,13 +86,13 @@ namespace CapHo.TableEditing
             String query = String.Format("DELETE FROM {0} WHERE n_npcid={1} AND i_itemid={2};", TableName, targetShopID, targetItemID);
             DBC.ExecuteQuery(query, ds);
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void RefreshTable()
         {
-            DBC.OpenConn();
+            
             //update the table
             String query = "SELECT * FROM " + TableName;
             DBC.ExecuteQuery(query, ds);
@@ -103,7 +103,7 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
         }
     }
 }

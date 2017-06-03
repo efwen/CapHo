@@ -33,10 +33,15 @@ namespace CapHo
         //retrieve and process initial data for Home
         private void initHome()
         {
-            DBC.OpenConn();
 
             String query = String.Format("SELECT * FROM {0} WHERE name=\'{1}\'", TableName, playerName);
-            DBC.ExecuteQuery(query, ds);
+
+            if(!DBC.ExecuteQuery(query, ds))
+            {
+                MessageBox.Show("Failed to get player data!");
+                this.Close();
+                return;
+            }
 
 
             if (ds.Tables.Count != 0)
@@ -53,18 +58,15 @@ namespace CapHo
                 merchantLevel = (int)row.ItemArray[3];
                 merchantLevelLbl.Text = String.Format("Lv. {0}", row.ItemArray[3]);
 
-                debtAmt = (int)row.ItemArray[5];
-                
+                debtAmt = (int)row.ItemArray[5];                
             }
             else
             {
                 MessageBox.Show("Failed to load player data!");
-                DBC.CloseConn();
                 this.Close();
             }
 
-            DBC.CloseConn();
-
+            //set the UI elements to match the data
             dayPeriodLbl.Text = String.Format("({0})", dayTimesStr[dayTime]);
             dayNumLbl.Text = day.ToString();
 
@@ -114,33 +116,25 @@ namespace CapHo
                     this.Close();
                 }
             }
-            else
-            {
-
-            }
-
 
             savePlayerState();
-            //if total due <0
-            //you win!
 
-            //get new payment amount
-            //reset days to next payment
+            if(debtAmt <= 0)
+            {
+                MessageBox.Show("You win!");
+            }
         }
 
-
+        //save the player state to the DB
         private void savePlayerState()
         {
-            DBC.OpenConn();
-
             String query = "update player_character\n";
             query += String.Format("set merchantlevel = {0}, currentbalance = {1}, currentdebt = {2}", merchantLevel, balance, debtAmt);
             query += String.Format("where playerid = {0};", playerID);
-            DBC.ExecuteQuery(query, ds);
-
-            DBC.CloseConn();
+            DBC.ExecuteQuery(query, ds);   
         }
 
+        //go to the shop mode
         private void openShop_Click(object sender, EventArgs e)
         {
             switchMode(shopPanel);
@@ -149,7 +143,6 @@ namespace CapHo
         private void buyFromGuild_Click(object sender, EventArgs e)
         {
             switchMode(guildPanel);
-            refreshGuildTab(guildBuySellTabControl.SelectedTab);
         }
     }
 }

@@ -27,17 +27,11 @@ namespace CapHo
         //open a connection
         public bool OpenConn()
         {
-
             try
             {
                 conn.Open();
                 open = true;
                 return true;
-            }
-            catch (NpgsqlException e)
-            {
-                MessageBox.Show(e.Message, "SQL Exception!");
-                return false;
             }
             catch (SocketException se)
             {

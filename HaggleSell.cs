@@ -10,12 +10,18 @@ using System.Windows.Forms;
 
 namespace CapHo
 {
+    /*
+    HaggleSell.cs
+    This Form is dedicated to the haggling process, and when it
+    is closed, the failedAttempts and finalPrice values will
+    be
+    */
     public partial class HaggleSell : Form
     {
         private DBConnection DBC;
         private DataSet ds = new DataSet();
 
-        //haggle tracking
+        //haggle customer information
         int customerID;
         int itemID;
         int basebudget;
@@ -23,10 +29,10 @@ namespace CapHo
         int relationship;
         Decimal stinginess;
 
-        //
+        //haggle item information
         int basePrice;
         int acceptablePrice;                        //the highest price the npc will accept
-        const int baseMaxAttempts = 2;              //everyone has a minimum of two sale attempts
+        const int baseMaxAttempts = 3;              //everyone has a minimum of two sale attempts
         int maxAttempts = 0;
 
         public int failedAttempts { get; set; }     //the number of attempts
@@ -61,7 +67,9 @@ namespace CapHo
             message.Text = String.Format("\"I want to buy this {0}, how much is it?\"", itemName.Text);
 
             //set acceptable price (the max price this customer will pay)
-            acceptablePrice =  (int)((Decimal)basePrice * stinginess);
+            //lowest stinginess(-1) will accept 200%, highest will accept only base price
+            //Price = Base / 2 * (3 - stinginess)
+            acceptablePrice =  (int)( ((Decimal)basePrice / 2) * ((Decimal)3.0 - stinginess));
             //set max attempts to reach this price
             maxAttempts = (int)(baseMaxAttempts + relationship / 5);
         }
@@ -101,37 +109,37 @@ namespace CapHo
             customerQuery += "join npc on customer.n_npcid = npc.npcid\n";
             customerQuery += String.Format("where npc.npcid = {0};", customerID);
 
-            DBC.OpenConn();
+            
             DBC.ExecuteQuery(customerQuery, ds);
             if (ds.Tables.Count != 0)
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    DBC.CloseConn();
+                    
                     basebudget = (int)ds.Tables[0].Rows[0].ItemArray[0];
                     budgetScaling = (Decimal)ds.Tables[0].Rows[0].ItemArray[1];
                     relationship = (int)ds.Tables[0].Rows[0].ItemArray[2];
                     stinginess = (Decimal)ds.Tables[0].Rows[0].ItemArray[3];
                     customerName.Text = (String)ds.Tables[0].Rows[0].ItemArray[4];
 
-                    DBC.CloseConn();
+                    
                     return true; 
                 }
                 else
                 {
                     MessageBox.Show("Customer not Found!");
-                    DBC.CloseConn();
+                    
                     return false;
                 }
 
             }
-            DBC.CloseConn();
+            
             return false;
         }
 
         //getItemInfo
-        //retrieves the information about the item in question useful
-        //for 
+        //retrieves the information about the item in question and sets
+        //controls to display this info
         private bool getItemInfo(int itemID)
         {
             String itemQuery = "select itemname, itemdescription, baseprice, item_type.type\n";
@@ -139,14 +147,12 @@ namespace CapHo
             itemQuery += "join item_type on item.itemtype = item_type.index\n";
             itemQuery += String.Format("where itemid = {0}", itemID);
 
-            DBC.OpenConn();
+            
             DBC.ExecuteQuery(itemQuery, ds);
             if (ds.Tables.Count != 0)
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    DBC.CloseConn();
-
                     itemName.Text = (String)ds.Tables[0].Rows[0].ItemArray[0];
                     itemDescription.Text= (String)ds.Tables[0].Rows[0].ItemArray[1];
                     basePrice = (int)ds.Tables[0].Rows[0].ItemArray[2];
@@ -156,19 +162,15 @@ namespace CapHo
 
                     //set the initial price offer
                     offerPrice.Value = (Decimal)(basePrice * 1.3);
-
-                    DBC.CloseConn();
                     return true;
                 }
                 else
                 {
                     MessageBox.Show("Customer not Found!");
-                    DBC.CloseConn();
                     return false;
                 }
 
             }
-            DBC.CloseConn();
             return false;
         }
     }

@@ -68,7 +68,9 @@
     <Compile Include="Home.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Queries.cs" />
+    <Compile Include="Queries.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Shop.cs">
       <SubType>Form</SubType>
     </Compile>

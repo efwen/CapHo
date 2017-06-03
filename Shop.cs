@@ -27,12 +27,13 @@ namespace CapHo
         private const int maxCustomers = 4;
         List<ShopDisplay> SDs = new List<ShopDisplay>();
         int shopID;
+
         //retrieve and process initial data for Shop
         private void initShop()
         {
             //get our shopid
             String shopIDQuery = String.Format("select shopid from playershop where ownerid = {0}", playerID);
-            DBC.OpenConn();
+            
 
             DBC.ExecuteQuery(shopIDQuery, ds);
 
@@ -44,15 +45,18 @@ namespace CapHo
             {
                 MessageBox.Show("Error retrieving shopID!");
             }
-            DBC.CloseConn();
+            
         }
 
+        //start the shop view
         private void runShop()
         {
             shopOpened = false;
+            runOpenShopBtn.Enabled = true;
             setupDisplays();
         }
 
+        //open the shop for business
         private void openShop()
         {
             shopOpened = true;
@@ -61,6 +65,14 @@ namespace CapHo
             
             while (customerCount < maxCustomers)
             {
+                //0. Do we have anything to sell?
+                if (!areShopDisplaysPopulated(shopID))
+                {
+                    MessageBox.Show("Your shop displays are empty!");
+                    return;
+                }
+
+
                 //1. choose a random NPC
                 curBuyNpc = getRandomCustomer();
                 if(curBuyNpc < 0)
@@ -69,12 +81,14 @@ namespace CapHo
                     return;
                 }
 
+
                 //2. pick a random item to buy
                 //   ---must be an item on display
-                int curItem = getRandomItemOnDisplay(playerID);
+                //   ---customers won't try to buy items larger than their budget
+                int curItem = getRandomItemOnDisplay(playerID, curBuyNpc);
                 if(curItem < 0)
                 {
-                    MessageBox.Show("No items on display! Cannot sell to customers!");
+                    MessageBox.Show("Customer could not find an item to buy!");
                     return;
                 }
 
@@ -82,34 +96,29 @@ namespace CapHo
                 HaggleSell hsWin = new HaggleSell(DBC, curBuyNpc, curItem);
                 hsWin.ShowDialog();
                 
-                if(hsWin.finalPrice > 0)
+                if(hsWin.finalPrice > 0) //successful purchase!
                 {
                     performPlayerShopSellTransaction(curBuyNpc, playerID, curItem, hsWin.finalPrice);
                     alterCustomerRelationship(curBuyNpc, 1);
-                    //increase relationship
                 }
-                else if (hsWin.finalPrice < 0)
+                else if (hsWin.finalPrice < 0) //bad result, customer angry
                 {
-                    //bad result, customer angry
                     alterCustomerRelationship(curBuyNpc, -1);
-                }
-                else //finalprice == 0
-                {
-                    //nothing happened, user quit out
                 }
 
                 customerCount++;
+            }
+            //update the shop displays
+            foreach (ShopDisplay d in SDs)
+            {
+                d.UpdateData();
             }
         }
 
         private void runOpenShopBtn_Click(object sender, EventArgs e)
         {
             openShop();
-        }
-
-        private void configDisplayBtn_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Not implemented!");
+           runOpenShopBtn.Enabled = false;
         }
 
         private void retHomeBtn_Click(object sender, EventArgs e)
@@ -119,102 +128,12 @@ namespace CapHo
             {
                 incrementTimer();
             }
-            
-
             //set the panel to home
             switchMode(homePanel);
         }
 
-        //bool sell -> are we selling the item? or buying?
-        //return success/fail
-        private bool testPrice(int price, int itemID, int customerID, bool sell)
-        {
-            return false;
-        }
 
-
-        //returns a random npc customer for the purposes of haggling
-        //returns -1 if error
-        private int getRandomCustomer()
-        {
-            String query = "select *\n";
-            query += "from customer\n";
-
-
-            DBC.OpenConn();
-
-            if(!DBC.ExecuteQuery(query, ds))
-            {
-                MessageBox.Show("Failed to execute query \"" + query + "\"");
-                return -1;
-            }
-
-            if (ds.Tables.Count != 0)
-            {
-                if (ds.Tables[0].Rows.Count > 0)       //rows mean the item exists
-                {
-                    Random rnd = new Random();
-                    int randomIndex = rnd.Next(0, ds.Tables[0].Rows.Count - 1);
-
-
-                    DBC.CloseConn();
-                    return (int)ds.Tables[0].Rows[randomIndex].ItemArray[0];      //return npc
-                }
-                else
-                {
-                    DBC.CloseConn();
-                    return -1;
-                }
-
-            }
-
-
-            DBC.CloseConn();
-            return -1;
-        }
-
-        //returns a random itemid currently on display in the shop
-        //returns -1 if no item found, or error
-        private int getRandomItemOnDisplay(int playerID)
-        {
-            String query;
-            query = "select d_itemid\n";
-            query += "from display_contents\n";
-            query += "join playershop on display_contents.shopid = playershop.shopid\n";
-            query += String.Format("where ownerid = {0}", playerID);
-
-            DBC.OpenConn();
-
-            if (!DBC.ExecuteQuery(query, ds))
-            {
-                MessageBox.Show("Failed to execute query \"" + query + "\"");
-                return -1;
-            }
-
-            if (ds.Tables.Count != 0)
-            {
-                if (ds.Tables[0].Rows.Count > 0)       //rows mean the item exists
-                {
-                    Random rnd = new Random();
-                    int randomIndex = rnd.Next(0, ds.Tables[0].Rows.Count - 1);
-
-
-                    DBC.CloseConn();
-                    return (int)ds.Tables[0].Rows[randomIndex].ItemArray[0];      //return npc
-                }
-                else
-                {
-                    DBC.CloseConn();
-                    return -1;
-                }
-
-            }
-
-
-            DBC.CloseConn();
-            return -1;
-        }
-
+        //Make shopdisplays as necessary and fill them with data
         private void setupDisplays()
         {
             //find the number of displays we need and fill them
@@ -222,41 +141,38 @@ namespace CapHo
             query += "from shop_display\n";
             query += String.Format("where shopid = {0};", shopID);
 
-            DBC.OpenConn();
 
             if (!DBC.ExecuteQuery(query, ds))
             {
                 MessageBox.Show("Failed to load shop displays!");
-                DBC.CloseConn();
                 return;
             }
 
-            DBC.CloseConn();
-          
             if (ds.Tables[0].Rows.Count == 0)
             {
                 MessageBox.Show("Failed to load shop displays!");
-                DBC.CloseConn();
                 return;
             }
             else
             {
-                if (SDs.Count == 0)
+                int count = Int32.Parse(ds.Tables[0].Rows[0].ItemArray[0].ToString());
+
+                //update the displays, add if necessary
+                for (int i = 0; i < count; i++)
                 {
-                    int count = Int32.Parse(ds.Tables[0].Rows[0].ItemArray[0].ToString());
-                    for (int i = 0; i < count; i++)
+                    if (i == SDs.Count)
                     {
-                        SDs.Add(new ShopDisplay(DBC, shopID, i));
-                        SDs[i].Location = new Point(50, 50 + i * 100);
-                        //SDs[i].Size = new Size(400, 50);
-                        shopPanel.Controls.Add(SDs[i]);
-                        SDs[i].Show();
+                        SDs.Add(new ShopDisplay(DBC, shopID, SDs.Count));
+                        SDs.Last().Location = new Point(50, 50 + i * 100);
+                        shopPanel.Controls.Add(SDs.Last());
+                    }
+                    else
+                    {
+                        //already exists, so just update the info
+                        SDs[i].UpdateData();
                     }
                 }
-                else
-                {
-                    //update the displays, add if necessary
-                }
+
             }
 
         }

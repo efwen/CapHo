@@ -37,7 +37,7 @@ namespace CapHo.TableEditing
 
         private void EditPlayerShop_Load(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String query = "SELECT * FROM " + TableName;
             DBC.ExecuteQuery(query, ds);
@@ -48,12 +48,12 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
         }
 
         private void createBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String query = String.Format("INSERT INTO {0} VALUES({1}, {2}, \'{3}\', \'{4}\', {5});", TableName,
                                         ownerid.Value, shopid.Value, shopName.Text, location.Text, shopLevel.Value);
@@ -66,17 +66,17 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
 
             RefreshTable();
         }
 
         private void modifyBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String targetShopID = Results.SelectedRows[0].Cells[1].Value.ToString();
-            String updates = String.Format("ownerid={0}, shopid={1}, shopname=\'{2}\', location=\'{4}\', shoplevel={5}",
+            String updates = String.Format("ownerid={0}, shopid={1}, shopname=\'{2}\', location=\'{3}\', shoplevel={4}",
                                             ownerid.Value, shopid.Value, shopName.Text, location.Text, shopLevel.Value);
 
             String query = String.Format("UPDATE {0} SET {1} WHERE shopid={2};", TableName, updates, targetShopID);
@@ -84,25 +84,25 @@ namespace CapHo.TableEditing
             DBC.ExecuteQuery(query, ds);
 
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String idToRemove = Results.SelectedRows[0].Cells[1].Value.ToString();
             String query = String.Format("DELETE FROM {0} WHERE shopid={1};", TableName, idToRemove);
             DBC.ExecuteQuery(query, ds);
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void RefreshTable()
         {
-            DBC.OpenConn();
+            
             //update the table
             String query = "SELECT * FROM " + TableName;
             DBC.ExecuteQuery(query, ds);
@@ -113,7 +113,7 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
         }
     }
 }

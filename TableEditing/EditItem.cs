@@ -30,7 +30,7 @@ namespace CapHo.TableEditing
 
         private void createBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String query = String.Format("INSERT INTO {0} VALUES({1}, \'{2}\', \'{3}\', {4}, {5});", TableName,
                                         itemid.Value, itemName.Text, itemDescription.Text, basePrice.Value, itemType.Value);
@@ -43,16 +43,16 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
 
             RefreshTable();
         }
 
         private void modifyBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
             String targetID = Results.SelectedRows[0].Cells[0].Value.ToString();
-            String updates = String.Format("itemid={0}, itemname=\'{1}\', itemdescription=\'{2}\', baseprice={3}",
+            String updates = String.Format("itemid={0}, itemname=\'{1}\', itemdescription=\'{2}\', baseprice={3}, itemtype={4}",
                                             itemid.Value, itemName.Text, itemDescription.Text, basePrice.Value, itemType.Value);
 
             String query = String.Format("UPDATE {0} SET {1} WHERE itemid={2};", TableName, updates, targetID);
@@ -60,25 +60,25 @@ namespace CapHo.TableEditing
             DBC.ExecuteQuery(query, ds);
 
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String idToRemove = Results.SelectedRows[0].Cells[0].Value.ToString();
             String query = String.Format("DELETE FROM {0} WHERE itemid={1};", TableName, idToRemove);
             DBC.ExecuteQuery(query, ds);
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void RefreshTable()
         {
-            DBC.OpenConn();
+            
             //update the table
             String query = "SELECT * FROM " + TableName;
             DBC.ExecuteQuery(query, ds);
@@ -89,7 +89,7 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
 
            
         }

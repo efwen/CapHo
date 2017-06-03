@@ -41,7 +41,6 @@
             this.ds = new System.Data.DataSet();
             this.shopPanel = new System.Windows.Forms.Panel();
             this.retHomeBtn = new System.Windows.Forms.Button();
-            this.configDisplayBtn = new System.Windows.Forms.Button();
             this.runOpenShopBtn = new System.Windows.Forms.Button();
             this.homePanel = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -178,7 +177,6 @@
             this.shopPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.shopPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("shopPanel.BackgroundImage")));
             this.shopPanel.Controls.Add(this.retHomeBtn);
-            this.shopPanel.Controls.Add(this.configDisplayBtn);
             this.shopPanel.Controls.Add(this.runOpenShopBtn);
             this.shopPanel.Enabled = false;
             this.shopPanel.Location = new System.Drawing.Point(201, 46);
@@ -196,16 +194,6 @@
             this.retHomeBtn.Text = "Return Home";
             this.retHomeBtn.UseVisualStyleBackColor = true;
             this.retHomeBtn.Click += new System.EventHandler(this.retHomeBtn_Click);
-            // 
-            // configDisplayBtn
-            // 
-            this.configDisplayBtn.Location = new System.Drawing.Point(491, 38);
-            this.configDisplayBtn.Name = "configDisplayBtn";
-            this.configDisplayBtn.Size = new System.Drawing.Size(156, 52);
-            this.configDisplayBtn.TabIndex = 1;
-            this.configDisplayBtn.Text = "Configure Display";
-            this.configDisplayBtn.UseVisualStyleBackColor = true;
-            this.configDisplayBtn.Click += new System.EventHandler(this.configDisplayBtn_Click);
             // 
             // runOpenShopBtn
             // 
@@ -449,6 +437,7 @@
             this.Controls.Add(this.guildPanel);
             this.Name = "Game";
             this.Text = "Capitalism, Ho!";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Game_FormClosing);
             this.Load += new System.EventHandler(this.Game_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ds)).EndInit();
             this.shopPanel.ResumeLayout(false);
@@ -498,7 +487,6 @@
         private System.Windows.Forms.NumericUpDown guildPurchaseQty;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button runOpenShopBtn;
-        private System.Windows.Forms.Button configDisplayBtn;
         private System.Windows.Forms.Button retHomeBtn;
     }
 }

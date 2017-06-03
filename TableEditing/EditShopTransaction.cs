@@ -30,7 +30,7 @@ namespace CapHo.TableEditing
 
         private void createBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String query = String.Format("INSERT INTO {0} VALUES({1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9});", TableName,
                                         transactionid.Value, transactionType.Value, shopid.Value, customerid.Value,
@@ -45,14 +45,14 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
 
             RefreshTable();
         }
 
         private void modifyBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
             String targetID = Results.SelectedRows[0].Cells[0].Value.ToString();
             String updates = String.Format("transaction_id={0}, transaction_type={1}, shopid={2}, customer_id={3}, itemid={4}, quantity={5}, transaction_amt={6}, transaction_day={7}, transaction_time={8}",
                                             transactionid.Value, transactionType.Value, shopid.Value, customerid.Value,
@@ -64,25 +64,25 @@ namespace CapHo.TableEditing
             DBC.ExecuteQuery(query, ds);
 
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String idToRemove = Results.SelectedRows[0].Cells[0].Value.ToString();
             String query = String.Format("DELETE FROM {0} WHERE transaction_id={1};", TableName, idToRemove);
             DBC.ExecuteQuery(query, ds);
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void RefreshTable()
         {
-            DBC.OpenConn();
+            
             //update the table
             String query = "SELECT * FROM " + TableName;
             DBC.ExecuteQuery(query, ds);
@@ -93,7 +93,7 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
 
 
         }

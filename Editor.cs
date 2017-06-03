@@ -42,11 +42,17 @@ namespace CapHo
                             "NPC_INVENTORY",
                             "SHOP_TRANSACTION",
                             "ITEM"});
+            DBC.OpenConn();
+        }
+
+        private void Editor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DBC.CloseConn();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             DBC.ExecuteQuery(SQLCmdBox.Text, ds);
 
@@ -56,7 +62,7 @@ namespace CapHo
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)

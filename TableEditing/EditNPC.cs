@@ -42,7 +42,7 @@ namespace CapHo.TableEditing
 
         private void EditNPC_Load(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String query = "SELECT * FROM NPC";
             DBC.ExecuteQuery(query, ds);
@@ -53,12 +53,12 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
         }
 
         private void createBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String query = String.Format("INSERT INTO NPC VALUES(\'{0}\', {1}, \'{2}\', {3}, \'{4}\');",
                                         name.Text, npcid.Value, gender.Text, age.Value, race.Text);
@@ -71,14 +71,14 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
 
             RefreshTable();
         }
 
         private void RefreshTable()
         {
-            DBC.OpenConn();
+            
             //update the table
             String query = "SELECT * FROM NPC";
             DBC.ExecuteQuery(query, ds);
@@ -89,12 +89,12 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
         }
 
         private void modifyBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
             String targetID = Results.SelectedRows[0].Cells[1].Value.ToString();
             String updates = String.Format("name=\'{0}\', npcid={1}, gender=\'{2}\', age={3}, race=\'{4}\'",
                                             name.Text, npcid.Value, gender.Text, age.Value, race.Text);
@@ -103,19 +103,19 @@ namespace CapHo.TableEditing
             DBC.ExecuteQuery(query, ds);
 
             
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String idToRemove = Results.SelectedRows[0].Cells[1].Value.ToString();
             String query = String.Format("DELETE FROM NPC WHERE npcid={0};", idToRemove);
             DBC.ExecuteQuery(query, ds);
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
     }

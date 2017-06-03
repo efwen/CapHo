@@ -30,8 +30,6 @@ namespace CapHo.TableEditing
 
         private void createBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
-
             String query = String.Format("INSERT INTO {0} VALUES({1}, {2}, {3}, {4}, {5}, {6}, {7});", TableName,
                                         npcid.Value, baseBudget.Value, budgetScaling.Value, relationship.Value,
                                         stinginess.Value, plainPref.Value, lightPref.Value);
@@ -44,14 +42,12 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
-
             RefreshTable();
         }
 
         private void modifyBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
             String targetID = Results.SelectedRows[0].Cells[0].Value.ToString();
             String updates = String.Format("n_npcid={0}, basebudget={1}, budgetscaling={2}, relationship={3}, stinginess={4}, plainpreference={5}, lightpreference={6}",
                                             npcid.Value, baseBudget.Value, budgetScaling.Value, relationship.Value,
@@ -61,27 +57,20 @@ namespace CapHo.TableEditing
             String query = String.Format("UPDATE {0} SET {1} WHERE n_npcid={2};", TableName, updates, targetID);
 
             DBC.ExecuteQuery(query, ds);
-
-
-            DBC.CloseConn();
             RefreshTable();
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
-
             String idToRemove = Results.SelectedRows[0].Cells[0].Value.ToString();
             String query = String.Format("DELETE FROM {0} WHERE n_npcid={1};", TableName, idToRemove);
             DBC.ExecuteQuery(query, ds);
 
-            DBC.CloseConn();
             RefreshTable();
         }
 
         private void RefreshTable()
         {
-            DBC.OpenConn();
             //update the table
             String query = "SELECT * FROM " + TableName;
             DBC.ExecuteQuery(query, ds);
@@ -91,10 +80,6 @@ namespace CapHo.TableEditing
                 dt = ds.Tables[0];
                 Results.DataSource = dt;
             }
-
-            DBC.CloseConn();
-
-
         }
 
         private void Results_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)

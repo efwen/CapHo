@@ -38,7 +38,7 @@ namespace CapHo.TableEditing
 
         private void EditPlayerCharacter_Load(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String query = "SELECT * FROM " + TableName;
             DBC.ExecuteQuery(query, ds);
@@ -49,12 +49,12 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
         }
 
         private void createBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String query = String.Format("INSERT INTO {0} VALUES({1}, \'{2}\', \'{3}\', {4}, {5}, {6});", TableName,
                                         playerid.Value, name.Text, gender.Text, merchantlevel.Value, currentbalance.Value, currentdebt.Value);
@@ -67,14 +67,14 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
 
             RefreshTable();
         }
 
         private void modifyBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
             String targetID = Results.SelectedRows[0].Cells[0].Value.ToString();
             String updates = String.Format("playerid={0}, name=\'{1}\', gender=\'{2}\', merchantlevel={3}, currentbalance={4}, currentdebt={5}",
                                             playerid.Value, name.Text, gender.Text, merchantlevel.Value, currentbalance.Value, currentdebt.Value);
@@ -84,25 +84,25 @@ namespace CapHo.TableEditing
             DBC.ExecuteQuery(query, ds);
 
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            DBC.OpenConn();
+            
 
             String idToRemove = Results.SelectedRows[0].Cells[0].Value.ToString();
             String query = String.Format("DELETE FROM {0} WHERE playerid={1};", TableName, idToRemove);
             DBC.ExecuteQuery(query, ds);
 
-            DBC.CloseConn();
+            
             RefreshTable();
         }
 
         private void RefreshTable()
         {
-            DBC.OpenConn();
+            
             //update the table
             String query = "SELECT * FROM " + TableName;
             DBC.ExecuteQuery(query, ds);
@@ -113,7 +113,7 @@ namespace CapHo.TableEditing
                 Results.DataSource = dt;
             }
 
-            DBC.CloseConn();
+            
         }
     }
 }

@@ -34,6 +34,7 @@ namespace CapHo
         private void runGuild()
         {
             somethingPurchased = false; //reset the purchased flag
+            refreshGuildTab(guildBuySellTabControl.SelectedTab);
         }
 
 
@@ -46,17 +47,8 @@ namespace CapHo
             refreshGuildTab(guildBuySellTabControl.SelectedTab);
         }
 
+        /*refresh the data in the buy/sell tab of the merchants guild
 
-        private void GuildBuyDGV_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-
-        /*refresh the data in the buy/sell tab of the merchants guild*/
-        /*
             The guild buy tab displays all of the items the guildmaster is willing to sell to/buy from you
             In other words:
         */
@@ -67,8 +59,6 @@ namespace CapHo
             {
                 priceQueryPortion = String.Format("{0} * PLAYER_CHARACTER.merchantlevel, ", 1.1);
             }
-
-            DBC.OpenConn();
 
             if (page == guildBuyTab)
             {
@@ -89,16 +79,12 @@ namespace CapHo
                     guildBuyDGV.DataSource = guildTransDt;
                 }
             }
-
-            DBC.CloseConn();
-
-
         }
 
+
+        //buy item(s) from the guild
         private void guildPanelBuy_Click(object sender, EventArgs e)
         {
-
-            //confirmation!
 
             if(guildBuyDGV.SelectedRows.Count == 0)
             {
@@ -127,10 +113,12 @@ namespace CapHo
                 MessageBox.Show("transaction failed");
             }
 
+            somethingPurchased = true;
             refreshGuildTab(guildBuyTab);
             updateUI();
         }
 
+        //leave the guild and go back home
         private void finishGuild_Click(object sender, EventArgs e)
         {
 
@@ -140,8 +128,6 @@ namespace CapHo
 
             //set the panel to home
             switchMode(homePanel);
-
-
         }
     }
 }
