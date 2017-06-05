@@ -26,12 +26,6 @@ namespace CapHo.TableEditing
         {
             DataGridViewCellCollection cells = Results.SelectedRows[0].Cells;
 
-            foreach(DataGridViewColumn col in Results.Columns)
-            {
-                MessageBox.Show(col.ValueType.ToString(), col.Name);
-            }
-
-
             cells[0].GetType().ToString();
             name.Text = cells[0].Value.ToString();
             npcid.Value = (int)cells[1].Value;

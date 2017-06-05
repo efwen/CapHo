@@ -142,11 +142,11 @@
     <Compile Include="TableEditing\EditPlayerShop.Designer.cs">
       <DependentUpon>EditPlayerShop.cs</DependentUpon>
     </Compile>
-    <Compile Include="TableEditing\EditShopInventory.cs">
+    <Compile Include="TableEditing\EditPlayerInventory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TableEditing\EditShopInventory.Designer.cs">
-      <DependentUpon>EditShopInventory.cs</DependentUpon>
+    <Compile Include="TableEditing\EditPlayerInventory.Designer.cs">
+      <DependentUpon>EditPlayerInventory.cs</DependentUpon>
     </Compile>
     <Compile Include="TableEditing\EditShopTransaction.cs">
       <SubType>Form</SubType>
@@ -199,8 +199,8 @@
     <EmbeddedResource Include="TableEditing\EditPlayerShop.resx">
       <DependentUpon>EditPlayerShop.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TableEditing\EditShopInventory.resx">
-      <DependentUpon>EditShopInventory.cs</DependentUpon>
+    <EmbeddedResource Include="TableEditing\EditPlayerInventory.resx">
+      <DependentUpon>EditPlayerInventory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TableEditing\EditShopTransaction.resx">
       <DependentUpon>EditShopTransaction.cs</DependentUpon>

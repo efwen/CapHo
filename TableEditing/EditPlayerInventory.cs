@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace CapHo.TableEditing
 {
-    public partial class EditShopInventory : Form
+    public partial class EditPlayerInventory : Form
     {
 
         private DBConnection DBC;
         private DataTable dt = new DataTable();
-        private string TableName = "shop_inventory";
+        private string TableName = "player_inventory";
 
-        public EditShopInventory(DBConnection DBC)
+        public EditPlayerInventory(DBConnection DBC)
         {
             InitializeComponent();
             this.DBC = DBC;

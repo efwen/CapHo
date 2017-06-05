@@ -1,6 +1,6 @@
 ﻿namespace CapHo.TableEditing
 {
-    partial class EditShopInventory
+    partial class EditPlayerInventory
     {
         /// <summary>
         /// Required designer variable.

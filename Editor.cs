@@ -101,7 +101,7 @@ namespace CapHo
                 }
                 case "SHOP_INVENTORY":
                 {
-                    (new EditShopInventory(DBC)).Show();
+                    (new EditPlayerInventory(DBC)).Show();
                     break;
                 }
                 case "NPCSHOP_INVENTORY":
